@@ -3,236 +3,308 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Milanobro — Agentic AI session</title>
+<title>Milanobro — Agentic AI working session</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <style>
 :root{
-  --bg:#f6f5f2; --ink:#16181d; --mute:#5a6370; --line:#d5d1c8;
-  --card:#fff; --soft:#eef1f6; --accent:#2a4f86; --ok:#1b6b45;
-  --font:"IBM Plex Sans",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+  --bg:#f7f4ee; --paper:#fffdf9; --ink:#1f2328; --mute:#646c76; --line:#e4ded3; --line-soft:#ece7dd;
+  --accent:#2f5a8a; --accent-soft:#eaf0f7; --ok:#3a7a5b; --ok-soft:rgba(58,122,91,.14);
+  --plum:#6b4f9a; --plum-soft:#f1ecf8; --sage-soft:#f1f6ee; --sage-line:#c9d9bf;
+  --serif:"Source Serif 4",Georgia,serif; --sans:"Inter",system-ui,-apple-system,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.55;min-height:100vh}
-.wrap{max-width:820px;margin:0 auto;padding:48px 28px 96px}
-.meta{font-family:var(--mono);font-size:11px;color:var(--mute);letter-spacing:.04em;margin-bottom:24px}
-h1{font-size:28px;font-weight:600;letter-spacing:-.02em;margin-bottom:8px}
-.sub{color:var(--mute);font-size:15px;max-width:48ch;margin-bottom:36px}
-.block{margin-bottom:34px}
-.block h2{
-  font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--mute);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--line);
-}
-.notes{font-size:15.5px}
-.notes p,.notes li{margin:0 0 10px;color:var(--ink)}
-.notes ul{margin:0 0 12px 1.15rem}
-.notes .muted{color:var(--mute)}
-.callout{
-  margin-top:14px;padding:14px 16px;background:var(--soft);
-  border-left:3px solid var(--accent);border-radius:0 8px 8px 0;
-}
-.callout strong{display:block;margin-bottom:4px}
-.live{
-  display:block;text-decoration:none;color:inherit;
-  background:var(--card);border:1px solid var(--line);border-radius:14px;
-  padding:18px 20px;margin:8px 0 16px;transition:border-color .15s,box-shadow .15s;
-}
-.live:hover{border-color:#a9b9d2;box-shadow:0 2px 8px rgba(22,24,29,.06)}
-.live .kicker{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
-.live h3{font-size:17px;font-weight:600;margin-bottom:4px}
-.live p{font-size:13px;color:var(--mute);margin:0}
-.live .go{margin-top:10px;font-size:13px;color:var(--accent);font-weight:500}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.6;min-height:100vh;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+.wrap{max-width:860px;margin:0 auto;padding:56px 32px 96px}
 
-.org{margin-top:10px}
-.org-top{display:flex;justify-content:center}
-.node{
-  background:var(--card);border:1px solid var(--line);border-radius:12px;
-  padding:12px 14px;min-width:180px;max-width:260px;
-  box-shadow:0 1px 2px rgba(22,24,29,.04);
+/* header */
+.meta{font-family:var(--mono);font-size:11px;color:var(--mute);letter-spacing:.05em;text-transform:uppercase;margin-bottom:22px;display:flex;flex-wrap:wrap;gap:6px 14px}
+.meta span+span::before{content:"·";margin-right:14px;color:var(--line)}
+h1{font-family:var(--serif);font-size:38px;font-weight:600;letter-spacing:-.015em;line-height:1.15;margin-bottom:12px}
+.sub{color:var(--mute);font-size:16.5px;max-width:56ch;margin-bottom:22px}
+.links{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:48px}
+.chip{
+  display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-size:13.5px;font-weight:500;color:var(--ink);
+  background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:8px 14px;
+  transition:border-color .15s,box-shadow .15s;
 }
-.node.chief{border-color:#b7c6db;background:linear-gradient(180deg,#fff,#f2f5fa);text-align:center;max-width:320px}
-.node .role{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:3px}
-.node h3{font-size:13.5px;font-weight:600;margin-bottom:3px}
-.node p{font-size:11.5px;color:var(--mute);line-height:1.4;margin:0}
-.trunk{width:1px;height:22px;background:var(--line);margin:0 auto}
-.bar{height:1px;background:var(--line);margin:0 auto;width:calc(100% - 24px);max-width:720px}
-.leaves{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:760px;margin:0 auto}
+.chip:hover{border-color:#b9c6d6;box-shadow:0 2px 8px rgba(31,35,40,.06)}
+.chip .dot{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px var(--ok-soft)}
+.chip.quiet{color:var(--mute)}
+
+/* sections */
+.block{margin-bottom:44px}
+.block h2{
+  display:flex;align-items:baseline;gap:12px;
+  font-family:var(--sans);font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--mute);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--line);
+}
+.block h2 .n{font-family:var(--mono);font-weight:500;color:var(--accent)}
+.notes{font-size:15.5px}
+.notes p,.notes li{margin:0 0 10px}
+.notes ul,.notes ol{margin:0 0 12px 1.2rem}
+.notes li::marker{color:var(--mute)}
+.notes .muted{color:var(--mute)}
+.notes strong{font-weight:600}
+.agenda{list-style:none;margin:0;padding:0;counter-reset:a}
+.agenda li{display:flex;gap:14px;padding:8px 0;border-bottom:1px dashed var(--line-soft);margin:0}
+.agenda li:last-child{border-bottom:0}
+.agenda li::before{counter-increment:a;content:counter(a,decimal-leading-zero);font-family:var(--mono);font-size:12px;color:var(--accent);padding-top:3px;min-width:22px}
+.callout{
+  margin-top:16px;padding:16px 18px;background:var(--accent-soft);
+  border-left:3px solid var(--accent);border-radius:0 10px 10px 0;
+}
+.callout strong{display:block;margin-bottom:4px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+
+/* live card */
+.live{
+  display:grid;grid-template-columns:1fr auto;align-items:center;gap:18px;text-decoration:none;color:inherit;
+  background:var(--paper);border:1px solid var(--line);border-radius:14px;
+  padding:20px 22px;margin:12px 0 18px;transition:border-color .15s,box-shadow .15s,transform .15s;
+}
+.live:hover{border-color:#b9c6d6;box-shadow:0 4px 14px rgba(31,35,40,.07);transform:translateY(-1px)}
+.live .kicker{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ok);margin-bottom:8px}
+.live .kicker::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px var(--ok-soft)}
+.live h3{font-family:var(--serif);font-size:20px;font-weight:600;margin-bottom:4px;letter-spacing:-.01em}
+.live p{font-size:13.5px;color:var(--mute);margin:0}
+.live .go{font-size:14px;color:var(--accent);font-weight:500;white-space:nowrap}
+
+/* mini org chart */
+.org{margin-top:22px;display:flex;flex-direction:column;align-items:center}
+.node{
+  background:var(--paper);border:1px solid var(--line);border-radius:12px;
+  padding:13px 15px;box-shadow:0 1px 2px rgba(31,35,40,.04);
+}
+.node .role{font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
+.node h3{font-size:14px;font-weight:600;margin-bottom:3px}
+.node p{font-size:12px;color:var(--mute);line-height:1.45;margin:0}
+.node.context{width:100%;max-width:640px;text-align:center;border-color:var(--sage-line);background:linear-gradient(180deg,var(--paper),var(--sage-soft))}
+.node.context .role{color:var(--ok)}
+.node.chief{width:100%;max-width:340px;text-align:center;border-color:#c6d2e0;background:linear-gradient(180deg,var(--paper),#f1f5fa)}
+.peers{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;max-width:560px}
+.peer{text-align:center;padding:14px 16px}
+.peer .badge{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:999px;margin-bottom:8px}
+.peer.hermes{border-color:#cfc3e3}
+.peer.hermes .badge{background:var(--plum-soft);color:var(--plum)}
+.peer.grok{border-color:#cfcfcf}
+.peer.grok .badge{background:#eeece8;color:#3a3a3a}
+.peer h3{font-size:15px}
+.conn{width:1px;height:20px;background:var(--line)}
+.conn-label{font-family:var(--mono);font-size:10px;color:var(--mute);letter-spacing:.08em;text-transform:uppercase;margin:2px 0}
+.bar{height:1px;background:var(--line);width:calc(100% - 24px);max-width:760px}
+.leaves{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;max-width:790px}
 .leaf{display:flex;flex-direction:column;align-items:center}
-.stem{width:1px;height:22px;background:var(--line)}
-.leaf .node{width:100%;max-width:none;min-width:0}
-.status{display:inline-flex;align-items:center;gap:6px;font-size:10px;color:var(--ok);margin-top:7px;font-family:var(--mono)}
-.status::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px rgba(27,107,69,.14)}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-@media(max-width:720px){.leaves,.grid2{grid-template-columns:1fr 1fr}.bar{width:calc(50% + 4px)}}
-@media(max-width:520px){.leaves,.grid2{grid-template-columns:1fr}.bar{display:none}.stem{height:10px}}
-.foot{margin-top:48px;padding-top:14px;border-top:1px solid var(--line);font-size:12px;color:var(--mute)}
-.tag{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--mute);border:1px solid var(--line);border-radius:999px;padding:3px 8px;margin-right:6px;margin-bottom:6px}
+.stem{width:1px;height:20px;background:var(--line)}
+.leaf .node{width:100%}
+.status{display:inline-flex;align-items:center;gap:6px;font-size:10px;color:var(--ok);margin-top:8px;font-family:var(--mono);letter-spacing:.04em}
+.status::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px var(--ok-soft)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.grid2 .node .role{color:var(--mute)}
+.grid2 .node.working .role{color:var(--ok)}
+.tag{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--mute);border:1px solid var(--line);border-radius:999px;padding:3px 9px;margin:6px 0 6px;background:var(--paper)}
+.foot{margin-top:56px;padding-top:16px;border-top:1px solid var(--line);font-size:12.5px;color:var(--mute);line-height:1.6}
+@media(max-width:720px){
+  h1{font-size:31px}
+  .wrap{padding:40px 22px 72px}
+  .live{grid-template-columns:1fr}
+  .leaves,.grid2{grid-template-columns:1fr 1fr}
+  .bar{width:calc(50% + 4px)}
+}
+@media(max-width:520px){
+  .leaves,.grid2,.peers{grid-template-columns:1fr}
+  .bar{display:none}.stem{height:10px}
+}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="meta">Milanobro · session notes · Sept 24, 2026 · private</div>
+  <div class="meta"><span>Milanobro</span><span>Working session</span><span>24 Sept 2026</span><span>Private</span></div>
   <h1>Agentic AI for Milanobro</h1>
-  <p class="sub">Working page for the session with Mario Testa and Romansas. Demo first. Architecture second. No company data connected for this review.</p>
+  <p class="sub">Working page for the session with Mario Testa and Romansas. Demonstrations first, architecture second. No company data is connected for this review.</p>
+  <div class="links">
+    <a class="chip" href="./agent-org-chart.html"><span class="dot"></span>Live agent org chart</a>
+    <a class="chip quiet" href="https://jmg424.github.io/jason-operating-dashboard/" target="_blank" rel="noopener">Operating dashboard ↗</a>
+  </div>
 
-  <div class="block">
+  <div class="block" id="agenda">
     <h2>Agenda</h2>
     <div class="notes">
-      <ul>
+      <ol class="agenda">
         <li>What an agent is, and why a secure context layer matters</li>
-        <li>Hermes for Mario — intended role and boundary</li>
+        <li>Hermes for Mario: intended role and boundary</li>
         <li>Live agents already running on Jason’s side (org chart)</li>
-        <li>Three demonstrations on test data (no Milanobro data)</li>
-        <li>Honest inventory: working / needs configuration / needs development / planned</li>
-        <li>Microsoft Copilot Studio comparison (capability, effort, cost, support)</li>
-        <li>AWS vs Azure placement, data stored vs retrieved on demand</li>
-        <li>Mario’s roadmap questions (email → calendar/meetings → Teams → voice)</li>
-        <li>What we need next to open a scoped context lane</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="block">
-    <h2>1 · Agents and context</h2>
-    <div class="notes">
-      <p>An agent is a harness around a frontier model, with tools and guardrails — not a chatbot bolted onto email.</p>
-      <p>Usefulness comes from depth of trusted context. Thin context produces generic answers. A secure, evolving context layer — mail, calendar, decisions, operating knowledge — is what lets the model behave like someone who lives inside the work.</p>
-      <p class="muted">North star (from Jason’s 20 Sept note): put Mario in a position where a continuously evolving, controlled context layer can be used with current models — then plug that layer into the enterprise stack IT accepts.</p>
-    </div>
-  </div>
-
-  <div class="block">
-    <h2>2 · Hermes for Mario</h2>
-    <div class="notes">
-      <p>Hermes is the proposed chief-of-staff style agent for Milanobro: brief priorities, support decisions with context, draft work, and execute only with clear approval.</p>
-      <p><strong>Important distinction for this session:</strong> what you will see demonstrated runs on Jason’s infrastructure with test data. The proposed Milanobro deployment (models via Bedrock or Azure OpenAI inside Milanobro’s cloud, scoped Microsoft Graph access) is design — not yet built or IT-approved.</p>
-      <div class="callout">
-        <strong>Ask for this session</strong>
-        Access to begin a secure, evolving context layer for Mario — starting narrow (revocable). Clear boundary on what may be read. An owner on the Milanobro side for approvals and expansion.
-      </div>
-    </div>
-  </div>
-
-  <div class="block">
-    <h2>3 · Live agent org chart</h2>
-    <div class="notes">
-      <p class="muted">Same pattern already running for Jason. Interfaces are <strong>Hermes</strong> or <strong>Grok Bot</strong> — both read the same secure context layer (Obsidian vault + GBrain). Open the live org chart:</p>
-      <a class="live" href="./agent-org-chart.html">
-        <div class="kicker">Live</div>
-        <h3>Agent org chart — Hermes / Grok → context layer</h3>
-        <p>Shows vault + GBrain at the base, Hermes and Grok Bot as interfaces, then the running desks (including health and homeopathy).</p>
-        <div class="go">Open live org chart →</div>
-      </a>
-      <p class="muted" style="margin-top:8px">Weekly ops board (separate): <a href="https://jmg424.github.io/jason-operating-dashboard/" target="_blank" rel="noopener">operating dashboard</a>.</p>
-
-      <div class="org">
-        <div class="org-top">
-          <div class="node chief">
-            <div class="role">Coordination</div>
-            <h3>Chief of staff</h3>
-            <p>Routes work across desks. Holds the side-effect pause — drafts only until Jason approves. Hermes is the Milanobro analogue of this seat.</p>
-            <div class="status">live</div>
-          </div>
-        </div>
-        <div class="trunk"></div>
-        <div class="bar"></div>
-        <div class="leaves">
-          <div class="leaf"><div class="stem"></div><div class="node">
-            <div class="role">Business</div><h3>Mimi’s Market</h3>
-            <p>Granola business — markets, kitchen, inventory, logistics.</p><div class="status">live</div>
-          </div></div>
-          <div class="leaf"><div class="stem"></div><div class="node">
-            <div class="role">Business</div><h3>Michelle Galoob Consulting</h3>
-            <p>MGC day-to-day — schedule, launches, client ops.</p><div class="status">live</div>
-          </div></div>
-          <div class="leaf"><div class="stem"></div><div class="node">
-            <div class="role">Business</div><h3>Jason / Work Different AI</h3>
-            <p>Consulting and brand — AI projects and clients.</p><div class="status">live</div>
-          </div></div>
-          <div class="leaf"><div class="stem"></div><div class="node">
-            <div class="role">Money</div><h3>Ledger</h3>
-            <p>Personal and business accounting — cash, cards, picture.</p><div class="status">live</div>
-          </div></div>
-          <div class="leaf"><div class="stem"></div><div class="node">
-            <div class="role">Health</div><h3>Health coach</h3>
-            <p>Jason’s labs, daily framework, and health routines.</p><div class="status">live</div>
-          </div></div>
-          <div class="leaf"><div class="stem"></div><div class="node">
-            <div class="role">Health</div><h3>Homeopathic assistant</h3>
-            <p>Advisor grounded in Esther Miszer / Esther Homeo message history.</p><div class="status">live</div>
-          </div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="block">
-    <h2>4 · Demonstrations (test data only)</h2>
-    <div class="notes">
-      <p>As offered 20 Sept — no company data, no architectural commitments during the demos:</p>
-      <ol style="margin-left:1.15rem">
-        <li style="margin-bottom:8px"><strong>Executive awareness</strong> — “What should I focus on today?” from seeded context.</li>
-        <li style="margin-bottom:8px"><strong>Strategic support</strong> — “Help me think through this” with cited recall.</li>
-        <li style="margin-bottom:8px"><strong>Execution with control</strong> — task draft → send attempt → approval gate stops the action.</li>
+        <li>Three demonstrations on test data, no Milanobro data</li>
+        <li>Inventory for Romansas: working, needs configuration, needs development, planned</li>
+        <li>Microsoft Copilot Studio comparison: capability, effort, cost, support</li>
+        <li>Mario’s roadmap and scope (email → calendar and meetings → Teams → voice)</li>
+        <li>Decisions to leave with</li>
       </ol>
     </div>
   </div>
 
-  <div class="block">
-    <h2>5 · Inventory Romansas asked for</h2>
+  <div class="block" id="s1">
+    <h2><span class="n">01</span>Agents and context</h2>
     <div class="notes">
-      <p class="muted">Labels are honest for this session. “Working” only where re-verified on the demo box.</p>
-      <div class="grid2" style="margin-top:10px">
-        <div class="node" style="max-width:none"><div class="role">Working</div><h3>On test data (demo harness)</h3><p>Chat channel, meeting→actions on pasted transcript, approval gate, memory with receipts — subject to fresh health check before labeling live.</p></div>
-        <div class="node" style="max-width:none"><div class="role">Needs configuration</div><h3>Ops hygiene</h3><p>Scheduled brief/closeout, monitoring, backups, log rotation, fallback model.</p></div>
-        <div class="node" style="max-width:none"><div class="role">Needs development</div><h3>Enterprise path</h3><p>Tenant-scoped Graph app; RAG/context store; Bedrock or Azure OpenAI wiring in Milanobro’s account; retention/deletion/exit procedure.</p></div>
-        <div class="node" style="max-width:none"><div class="role">Planned</div><h3>Broader assistant</h3><p>Calendar/meetings/transcripts, Teams chats/channels, voice assistant — per Mario’s roadmap.</p></div>
-      </div>
-      <p style="margin-top:12px"><strong>Does the Bedrock version already work?</strong> No. It is the proposed deployment. Today’s demos are the existing harness on Jason’s infrastructure.</p>
+      <p>An agent is a harness around a frontier model, with tools and guardrails. It is not a chatbot bolted onto email.</p>
+      <p>Usefulness comes from depth of trusted context. Thin context produces generic answers. A secure, evolving context layer of mail, calendar, decisions and operating knowledge is what lets the model behave like someone who lives inside the work.</p>
+      <p class="muted">North star, from Jason’s 20 Sept note: put Mario in a position where a continuously evolving, controlled context layer can be used with current models, then plug that layer into the enterprise stack IT accepts.</p>
     </div>
   </div>
 
-  <div class="block">
-    <h2>6 · Microsoft comparison (open questions)</h2>
+  <div class="block" id="s2">
+    <h2><span class="n">02</span>Hermes for Mario</h2>
     <div class="notes">
-      <p>Romansas’s frame: start from Microsoft 365 Copilot / Copilot Studio because mail, calendar, Teams, and meetings already live there. Claude does not by itself require AWS. Fair comparison covers capability gap, build effort, run cost, and ongoing support.</p>
+      <p>Hermes is the proposed chief-of-staff style agent for Milanobro: brief priorities, support decisions with context, draft work, and execute only with clear approval.</p>
+      <p><strong>Important distinction for this session.</strong> What you will see demonstrated runs on Jason’s infrastructure with test data. The proposed Milanobro deployment, with models via Bedrock or Azure OpenAI inside Milanobro’s cloud and scoped Microsoft Graph access, is a design. It is not yet built or IT-approved.</p>
+      <div class="callout">
+        <strong>Ask for this session</strong>
+        Access to begin a secure, evolving context layer for Mario, starting narrow and revocable. A clear boundary on what may be read. An owner on the Milanobro side for approvals and expansion.
+      </div>
+    </div>
+  </div>
+
+  <div class="block" id="s3">
+    <h2><span class="n">03</span>Live agent org chart</h2>
+    <div class="notes">
+      <p>The same pattern is already running for Jason. <strong>Hermes</strong> and <strong>Grok Bot</strong> are peer interfaces into one secure context layer, the Obsidian vault plus GBrain. Neither is primary or fallback. <strong>Grok Bot is the voice-facing interface</strong>: Jason uses it because its voice interface is the best available.</p>
+      <a class="live" href="./agent-org-chart.html">
+        <div>
+          <div class="kicker">Live</div>
+          <h3>Agent org chart: Hermes ∥ Grok Bot → context layer</h3>
+          <p>Vault + GBrain at the base, Hermes and Grok Bot as peers (Grok Bot on voice), then the running desks, including health and homeopathy.</p>
+        </div>
+        <div class="go">Open the org chart →</div>
+      </a>
+
+      <div class="org" aria-label="Summary of Jason's live agent org chart">
+        <div class="node context">
+          <div class="role">Secure context layer</div>
+          <h3>Obsidian vault + GBrain</h3>
+          <p>Vault is the curated, human-readable truth. GBrain is the searchable archive over it. Agents read here; they do not keep a second brain.</p>
+        </div>
+        <div class="conn"></div>
+        <div class="conn-label">Peer interfaces</div>
+        <div class="conn"></div>
+        <div class="peers">
+          <div class="node peer hermes">
+            <div class="badge">Peer interface</div>
+            <h3>Hermes</h3>
+            <p>Agent runtime and mission-control harness. Equal peer to Grok Bot on the same context layer.</p>
+          </div>
+          <div class="node peer grok">
+            <div class="badge">Peer interface · voice</div>
+            <h3>Grok Bot</h3>
+            <p>Voice-facing interface on the same vault and GBrain. Chosen for the quality of its voice interface.</p>
+          </div>
+        </div>
+        <div class="conn"></div>
+        <div class="node chief">
+          <div class="role">Coordination</div>
+          <h3>Chief of staff</h3>
+          <p>Routes work across desks and holds the side-effect pause: drafts only until Jason approves. Hermes for Milanobro is the analogue of this seat.</p>
+          <div class="status">live</div>
+        </div>
+        <div class="conn"></div>
+        <div class="bar"></div>
+        <div class="leaves">
+          <div class="leaf"><div class="stem"></div><div class="node">
+            <div class="role">Business</div><h3>Mimi’s Market</h3>
+            <p>Granola business: markets, kitchen, inventory, logistics.</p><div class="status">live</div>
+          </div></div>
+          <div class="leaf"><div class="stem"></div><div class="node">
+            <div class="role">Business</div><h3>Michelle Galoob Consulting</h3>
+            <p>MGC day-to-day: schedule, launches, client ops.</p><div class="status">live</div>
+          </div></div>
+          <div class="leaf"><div class="stem"></div><div class="node">
+            <div class="role">Business</div><h3>Jason / Work Different AI</h3>
+            <p>Consulting and brand: AI projects and clients.</p><div class="status">live</div>
+          </div></div>
+          <div class="leaf"><div class="stem"></div><div class="node">
+            <div class="role">Money</div><h3>Ledger</h3>
+            <p>Personal and business accounting: cash, cards, the full picture.</p><div class="status">live</div>
+          </div></div>
+          <div class="leaf"><div class="stem"></div><div class="node">
+            <div class="role">Health</div><h3>Health coach</h3>
+            <p>Jason’s labs, daily framework and health routines.</p><div class="status">live</div>
+          </div></div>
+          <div class="leaf"><div class="stem"></div><div class="node">
+            <div class="role">Health</div><h3>Homeopathic assistant</h3>
+            <p>Advisor grounded in the Esther Miszer / Esther Homeo message history.</p><div class="status">live</div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="block" id="s4">
+    <h2><span class="n">04</span>Demonstrations (test data only)</h2>
+    <div class="notes">
+      <p>As offered on 20 Sept: no company data and no architectural commitments during the demos.</p>
+      <ol>
+        <li><strong>Executive awareness.</strong> “What should I focus on today?” answered from seeded context.</li>
+        <li><strong>Strategic support.</strong> “Help me think through this” with cited recall.</li>
+        <li><strong>Execution with control.</strong> Task draft → send attempt → the approval gate stops the action.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="block" id="s5">
+    <h2><span class="n">05</span>Inventory Romansas asked for</h2>
+    <div class="notes">
+      <p class="muted">Labels are honest for this session. “Working” is used only where re-verified on the demo box.</p>
+      <div class="grid2">
+        <div class="node working"><div class="role">Working</div><h3>On test data (demo harness)</h3><p>Chat channel, meeting → actions on a pasted transcript, approval gate, memory with receipts. Subject to a fresh health check before being labelled live.</p></div>
+        <div class="node"><div class="role">Needs configuration</div><h3>Ops hygiene</h3><p>Scheduled brief and closeout, monitoring, backups, log rotation, fallback model.</p></div>
+        <div class="node"><div class="role">Needs development</div><h3>Enterprise path</h3><p>Tenant-scoped Graph app; RAG / context store; Bedrock or Azure OpenAI wiring in Milanobro’s account; retention, deletion and exit procedure.</p></div>
+        <div class="node"><div class="role">Planned</div><h3>Broader assistant</h3><p>Calendar, meetings and transcripts; Teams chats and channels; voice assistant, per Mario’s roadmap.</p></div>
+      </div>
+      <p style="margin-top:14px"><strong>Does the Bedrock version already work?</strong> No. It is the proposed deployment. Today’s demos use the existing harness on Jason’s infrastructure.</p>
+    </div>
+  </div>
+
+  <div class="block" id="s6">
+    <h2><span class="n">06</span>Microsoft comparison (open questions)</h2>
+    <div class="notes">
+      <p>Romansas’s frame: start from Microsoft 365 Copilot / Copilot Studio, because mail, calendar, Teams and meetings already live there. Claude does not by itself require AWS. A fair comparison covers capability gap, build effort, run cost and ongoing support.</p>
       <ul>
         <li>What can Copilot Studio already do for Mario’s executive-assistant goal?</li>
         <li>Where does a separate context layer add leverage Copilot does not?</li>
-        <li>What company data would be stored in AWS vs retrieved on demand?</li>
-        <li>AWS Bedrock vs Azure OpenAI — same design idea, different home cloud; IT chooses.</li>
+        <li>What company data would be stored in AWS versus retrieved on demand?</li>
+        <li>AWS Bedrock versus Azure OpenAI: same design idea, different home cloud. IT chooses.</li>
       </ul>
-      <p class="muted">Session posture: demonstrate first; settle architecture after both sides have seen the demos.</p>
+      <p class="muted">Session posture: demonstrate first, settle architecture after both sides have seen the demos.</p>
     </div>
   </div>
 
-  <div class="block">
-    <h2>7 · Mario’s roadmap (scope)</h2>
+  <div class="block" id="s7">
+    <h2><span class="n">07</span>Mario’s roadmap (scope)</h2>
     <div class="notes">
       <span class="tag">Comfortable now</span>
-      <p>No other employees’ mailboxes. No SharePoint / OneDrive / broad document stores for now. Limit Microsoft 365 access to what the pilot needs.</p>
+      <p>No other employees’ mailboxes. No SharePoint, OneDrive or broad document stores for now. Microsoft 365 access limited to what the pilot needs.</p>
       <span class="tag">Required for usefulness</span>
       <p>Eventually: Mario’s calendar; meetings and transcripts; Teams chats and channels; voice interaction.</p>
       <span class="tag">Phased path</span>
-      <p>Phase 1 email → Phase 2 calendar &amp; meetings → Phase 3 Teams → later phases include voice and deeper ops knowledge. Each phase carries its own security implications for Romansas to review.</p>
+      <p>Phase 1 email → Phase 2 calendar and meetings → Phase 3 Teams → later phases add voice and deeper operating knowledge. Each phase carries its own security implications for Romansas to review.</p>
     </div>
   </div>
 
-  <div class="block">
-    <h2>8 · Decisions to leave with</h2>
+  <div class="block" id="s8">
+    <h2><span class="n">08</span>Decisions to leave with</h2>
     <div class="notes">
       <ul>
         <li>Whether the three demos match Mario’s “true business assistant” objective</li>
-        <li>Preferred architecture lane to investigate next (Copilot Studio vs AWS/Azure-hosted Hermes + context)</li>
-        <li>First context lane (scope + owner + revoke path)</li>
+        <li>Preferred architecture lane to investigate next: Copilot Studio, or AWS / Azure-hosted Hermes with a context layer</li>
+        <li>First context lane: scope, owner and revoke path</li>
         <li>Evidence Romansas needs before any company data connects</li>
-        <li>Follow-up date — not fees or support terms in this meeting</li>
+        <li>Follow-up date. Fees and support terms are not for this meeting.</li>
       </ul>
     </div>
   </div>
 
-  <div class="foot">Checklist source: Gmail thread “AI assistant — opening the conversation” (Mario Testa, Romansas / IT, Maria Chiara Rossi, Jason · 14–21 Sept 2026). Demo ≠ proposal. No company data on this page.</div>
+  <div class="foot">Checklist source: Gmail thread “AI assistant — opening the conversation” (Mario Testa, Romansas / IT, Maria Chiara Rossi, Jason · 14–21 Sept 2026). Demo ≠ proposal. No company data on this page. Live org chart: <a href="./agent-org-chart.html">agent-org-chart.html</a>.</div>
 </div>
 </body>
 </html>

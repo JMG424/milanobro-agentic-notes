@@ -6,100 +6,109 @@
 <title>Jason — live agent org chart</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <style>
 :root{
-  --bg:#f6f5f2; --ink:#16181d; --mute:#5a6370; --line:#d5d1c8;
-  --card:#fff; --soft:#eef1f6; --accent:#2a4f86; --ok:#1b6b45; --hermes:#6b4f9a; --grok:#1a1a1a;
-  --font:"IBM Plex Sans",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+  --bg:#f7f4ee; --paper:#fffdf9; --ink:#1f2328; --mute:#646c76; --line:#e4ded3;
+  --accent:#2f5a8a; --accent-soft:#eaf0f7; --ok:#3a7a5b; --ok-soft:rgba(58,122,91,.14);
+  --plum:#6b4f9a; --plum-soft:#f1ecf8; --plum-line:#cfc3e3; --sage-soft:#f1f6ee; --sage-line:#c9d9bf;
+  --serif:"Source Serif 4",Georgia,serif; --sans:"Inter",system-ui,-apple-system,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.5;min-height:100vh}
-.wrap{max-width:920px;margin:0 auto;padding:40px 24px 80px}
-.meta{font-family:var(--mono);font-size:11px;color:var(--mute);letter-spacing:.04em;margin-bottom:20px}
-h1{font-size:26px;font-weight:600;letter-spacing:-.02em;margin-bottom:6px}
-.sub{color:var(--mute);font-size:15px;max-width:52ch;margin-bottom:28px}
-h2{font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin:28px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.55;min-height:100vh;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+.wrap{max-width:940px;margin:0 auto;padding:48px 28px 88px}
+.meta{font-family:var(--mono);font-size:11px;color:var(--mute);letter-spacing:.05em;text-transform:uppercase;margin-bottom:20px;display:flex;flex-wrap:wrap;gap:6px 14px}
+.meta span+span::before{content:"·";margin-right:14px;color:var(--line)}
+h1{font-family:var(--serif);font-size:34px;font-weight:600;letter-spacing:-.015em;line-height:1.15;margin-bottom:10px}
+.sub{color:var(--mute);font-size:16px;max-width:60ch;margin-bottom:18px}
+.links{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:40px}
+.chip{
+  display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-size:13.5px;font-weight:500;color:var(--ink);
+  background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:8px 14px;transition:border-color .15s,box-shadow .15s;
+}
+.chip:hover{border-color:#b9c6d6;box-shadow:0 2px 8px rgba(31,35,40,.06)}
+.chip.quiet{color:var(--mute)}
+h2{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin:0 0 18px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+
+.stack{display:flex;flex-direction:column;align-items:center}
 .layer{
-  background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;
-  box-shadow:0 1px 2px rgba(22,24,29,.04);
+  background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:18px 20px;
+  box-shadow:0 1px 2px rgba(31,35,40,.04);
 }
-.layer.context{border-color:#b8c9a8;background:linear-gradient(180deg,#fff,#f4f8f1)}
-.layer.iface{border-color:#c5b8db;background:linear-gradient(180deg,#fff,#f6f3fb)}
-.role{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
-.layer h3{font-size:16px;font-weight:600;margin-bottom:4px}
-.layer p{font-size:13px;color:var(--mute);margin:0}
-.stack{display:flex;flex-direction:column;align-items:center;gap:0}
-.conn{width:1px;height:20px;background:var(--line)}
-.conn-label{font-family:var(--mono);font-size:10px;color:var(--mute);letter-spacing:.06em;margin:2px 0}
-.ifaces{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;max-width:560px}
-.iface{
-  background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;text-align:center;
-}
-.iface.hermes{border-color:#c5b8db}
-.iface.grok{border-color:#c8c8c8}
-.iface .badge{
-  display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;
-  padding:3px 8px;border-radius:999px;margin-bottom:8px;
-}
-.iface.hermes .badge{background:#efe8f8;color:var(--hermes)}
-.iface.grok .badge{background:#eee;color:#333}
-.iface h3{font-size:15px;margin-bottom:4px}
-.iface p{font-size:12px;color:var(--mute)}
-.bar{height:1px;background:var(--line);width:min(100%,760px);margin:0 auto}
-.leaves{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;max-width:860px}
-.node{
-  background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;
-}
+.layer.context{width:100%;max-width:660px;text-align:center;border-color:var(--sage-line);background:linear-gradient(180deg,var(--paper),var(--sage-soft))}
+.layer.chief{width:100%;max-width:360px;text-align:center;border-color:#c6d2e0;background:linear-gradient(180deg,var(--paper),#f1f5fa)}
+.role{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:5px}
+.layer.context .role{color:var(--ok)}
+.layer h3{font-family:var(--serif);font-size:19px;font-weight:600;margin-bottom:5px;letter-spacing:-.01em}
+.layer p{font-size:13.5px;color:var(--mute);margin:0}
+.conn{width:1px;height:22px;background:var(--line)}
+.conn-label{font-family:var(--mono);font-size:10px;color:var(--mute);letter-spacing:.09em;text-transform:uppercase;margin:2px 0}
+.ifaces{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%;max-width:600px}
+.iface{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px 18px;text-align:center;box-shadow:0 1px 2px rgba(31,35,40,.04)}
+.iface.hermes{border-color:var(--plum-line)}
+.iface.grok{border-color:#cfcfcf}
+.iface .badge{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:999px;margin-bottom:9px}
+.iface.hermes .badge{background:var(--plum-soft);color:var(--plum)}
+.iface.grok .badge{background:#eeece8;color:#3a3a3a}
+.iface h3{font-family:var(--serif);font-size:18px;font-weight:600;margin-bottom:5px}
+.iface p{font-size:12.5px;color:var(--mute);margin:0}
+.bar{height:1px;background:var(--line);width:min(100%,780px)}
+.leaves{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;max-width:880px}
+.node{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:13px 15px;box-shadow:0 1px 2px rgba(31,35,40,.04);height:100%}
 .node .role{margin-bottom:3px}
-.node h3{font-size:13.5px;font-weight:600;margin-bottom:3px}
-.node p{font-size:11.5px;color:var(--mute);margin:0}
-.stem{width:1px;height:18px;background:var(--line);margin:0 auto}
+.node h3{font-size:14px;font-weight:600;margin-bottom:3px}
+.node p{font-size:12px;color:var(--mute);margin:0;line-height:1.45}
+.stem{width:1px;height:20px;background:var(--line);margin:0 auto}
 .leaf{display:flex;flex-direction:column;align-items:stretch}
-.status{display:inline-flex;align-items:center;gap:6px;font-size:10px;color:var(--ok);margin-top:8px;font-family:var(--mono)}
-.status::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px rgba(27,107,69,.14)}
-.note{font-size:13px;color:var(--mute);margin-top:18px;max-width:60ch}
-a.back{font-size:13px;color:var(--accent);text-decoration:none}
-a.back:hover{text-decoration:underline}
-@media(max-width:700px){.leaves{grid-template-columns:1fr 1fr}.ifaces{grid-template-columns:1fr}}
-@media(max-width:480px){.leaves{grid-template-columns:1fr}}
+.status{display:inline-flex;align-items:center;gap:6px;font-size:10px;color:var(--ok);margin-top:8px;font-family:var(--mono);letter-spacing:.04em}
+.status::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px var(--ok-soft)}
+.legend{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:36px}
+.legend .item{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-size:13.5px;color:var(--mute)}
+.legend .item strong{display:block;color:var(--ink);margin-bottom:3px;font-weight:600}
+.note{font-size:13.5px;color:var(--mute);margin-top:22px;max-width:66ch}
+.foot{margin-top:44px;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--mute)}
+@media(max-width:720px){h1{font-size:29px}.wrap{padding:36px 20px 64px}.leaves{grid-template-columns:1fr 1fr}.ifaces,.legend{grid-template-columns:1fr}}
+@media(max-width:480px){.leaves{grid-template-columns:1fr}.bar{display:none}.stem{height:10px}}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="meta">Jason · live agent org chart · context layer + interfaces</div>
+  <div class="meta"><span>Jason</span><span>Live agent org chart</span><span>Context layer + interfaces</span></div>
   <h1>Live agent org chart</h1>
-  <p class="sub">Interfaces (Hermes or Grok Bot) sit on a shared secure context layer — Obsidian vault as source of truth, GBrain as search. Desks below are the running agents.</p>
-  <p style="margin-bottom:20px"><a class="back" href="./index.html">← Milanobro session page</a>
-    · <a class="back" href="https://jmg424.github.io/jason-operating-dashboard/" target="_blank" rel="noopener">Operating dashboard</a></p>
+  <p class="sub">Hermes and Grok Bot are peer interfaces into the same secure context layer: the Obsidian vault as source of truth, GBrain as search. Neither is primary or fallback. Grok Bot is the voice-facing interface. The desks below are the running agents.</p>
+  <div class="links">
+    <a class="chip" href="./index.html">← Milanobro session page</a>
+    <a class="chip quiet" href="https://jmg424.github.io/jason-operating-dashboard/" target="_blank" rel="noopener">Operating dashboard ↗</a>
+  </div>
 
   <h2>Architecture</h2>
   <div class="stack">
-    <div class="layer context" style="width:100%;max-width:640px;text-align:center">
+    <div class="layer context">
       <div class="role">Secure context layer</div>
       <h3>Obsidian vault + GBrain</h3>
-      <p>Vault = curated human-readable truth (Jason Vault). GBrain = machine-searchable archive over that corpus. Agents read here; they do not invent a second brain.</p>
+      <p>Vault is the curated, human-readable truth (Jason Vault). GBrain is the machine-searchable archive over that corpus. Agents read here; they do not keep a second brain.</p>
       <div class="status">connected on Mini (clawd57)</div>
     </div>
     <div class="conn"></div>
-    <div class="conn-label">READ / WRITE (curated)</div>
+    <div class="conn-label">Read / write (curated)</div>
     <div class="conn"></div>
     <div class="ifaces">
       <div class="iface hermes">
-        <div class="badge">Interface</div>
+        <div class="badge">Peer interface</div>
         <h3>Hermes</h3>
-        <p>Agent runtime / mission-control style harness. Same context layer. Milanobro’s proposed seat rides this pattern.</p>
+        <p>Agent runtime and mission-control harness. Equal peer to Grok Bot on the same context layer. Milanobro’s company-facing seat is proposed on this pattern.</p>
       </div>
       <div class="iface grok">
-        <div class="badge">Interface</div>
+        <div class="badge">Peer interface · voice</div>
         <h3>Grok Bot</h3>
-        <p>This desk (Agent26 and sibling Grok bots). Same vault + GBrain. Chat/voice as the human interface.</p>
+        <p>Voice-facing interface. Jason uses Grok Bot because its voice interface is the best available. Same vault and GBrain as Hermes; chat and voice to the desks.</p>
       </div>
     </div>
     <div class="conn"></div>
-    <div class="conn-label">ROUTES WORK TO DESKS</div>
+    <div class="conn-label">Routes work to desks</div>
     <div class="conn"></div>
-    <div class="layer iface" style="width:100%;max-width:320px;text-align:center">
+    <div class="layer chief">
       <div class="role">Coordination</div>
       <h3>Chief of staff</h3>
       <p>Priorities, routing, side-effect pause.</p>
@@ -107,13 +116,10 @@ a.back:hover{text-decoration:underline}
     </div>
     <div class="conn"></div>
     <div class="bar"></div>
-  </div>
-
-  <div style="display:flex;justify-content:center;margin-top:0">
-    <div class="leaves" style="padding-top:0">
+    <div class="leaves">
       <div class="leaf"><div class="stem"></div><div class="node">
         <div class="role">Business</div><h3>Mimi’s Market</h3>
-        <p>Granola ops — markets, kitchen, inventory.</p><div class="status">live</div>
+        <p>Granola ops: markets, kitchen, inventory.</p><div class="status">live</div>
       </div></div>
       <div class="leaf"><div class="stem"></div><div class="node">
         <div class="role">Business</div><h3>Michelle Galoob Consulting</h3>
@@ -125,7 +131,7 @@ a.back:hover{text-decoration:underline}
       </div></div>
       <div class="leaf"><div class="stem"></div><div class="node">
         <div class="role">Money</div><h3>Ledger</h3>
-        <p>Personal + business accounting.</p><div class="status">live</div>
+        <p>Personal and business accounting.</p><div class="status">live</div>
       </div></div>
       <div class="leaf"><div class="stem"></div><div class="node">
         <div class="role">Health</div><h3>Health coach</h3>
@@ -138,7 +144,14 @@ a.back:hover{text-decoration:underline}
     </div>
   </div>
 
-  <p class="note">Hermes and Grok Bot are alternate interfaces to the same context layer — not separate brains. For Milanobro, Hermes is the proposed company-facing seat; the demos you see may run through either interface on Jason’s side until Milanobro’s cloud and access path are approved.</p>
+  <div class="legend">
+    <div class="item"><strong>Peers, not primary and fallback</strong>Hermes and Grok Bot read and write the same context layer. Either can be used for a given task; nothing is duplicated into a second brain.</div>
+    <div class="item"><strong>Grok Bot on voice</strong>Grok Bot is the voice-facing interface. It is chosen for the quality of its voice interface, with the same vault and GBrain behind it.</div>
+  </div>
+
+  <p class="note">For Milanobro, Hermes is the proposed company-facing seat. Demonstrations on Jason’s side may use either peer until Milanobro’s cloud and access path are approved.</p>
+
+  <div class="foot">Jason’s infrastructure only. No Milanobro data is connected to any agent on this page.</div>
 </div>
 </body>
 </html>
