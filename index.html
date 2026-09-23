@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Milanobro — Agentic AI working session</title>
+<title>Milano Bro — AI assistant working session</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -121,9 +121,9 @@ h1{font-family:var(--serif);font-size:38px;font-weight:600;letter-spacing:-.015e
 </head>
 <body>
 <div class="wrap">
-  <div class="meta"><span>Milanobro</span><span>Working session</span><span>24 Sept 2026</span><span>Private</span></div>
-  <h1>Agentic AI for Milanobro</h1>
-  <p class="sub">Working page for the session with Mario Testa and Romansas. Demonstrations first, architecture second. No company data is connected for this review.</p>
+  <div class="meta"><span>Milano Bro</span><span>Working session</span><span>Thu 24 Sept 2026 · 12:00–1:00 PM Eastern · Teams</span><span>Private</span></div>
+  <h1>AI assistant for Milano Bro</h1>
+  <p class="sub">Session page for the call with Mario Testa and Romansas. First half: demonstrations on test data only. Second half: architecture, presented as a proposal. Nothing is connected to any Milano Bro mailbox, tenant, or file store. No decision is needed on this call.</p>
   <div class="links">
     <a class="chip" href="./agent-org-chart.html"><span class="dot"></span>Live agent org chart</a>
     <a class="chip quiet" href="https://jmg424.github.io/jason-operating-dashboard/" target="_blank" rel="noopener">Operating dashboard ↗</a>
@@ -132,15 +132,16 @@ h1{font-family:var(--serif);font-size:38px;font-weight:600;letter-spacing:-.015e
   <div class="block" id="agenda">
     <h2>Agenda</h2>
     <div class="notes">
+      <p class="muted">First half: demonstrations. Second half: architecture as a proposal.</p>
       <ol class="agenda">
-        <li>What an agent is, and why a secure context layer matters</li>
-        <li>Hermes for Mario: intended role and boundary</li>
-        <li>Live agents already running on Jason’s side (org chart)</li>
-        <li>Three demonstrations on test data, no Milanobro data</li>
-        <li>Inventory for Romansas: working, needs configuration, needs development, planned</li>
-        <li>Microsoft Copilot Studio comparison: capability, effort, cost, support</li>
-        <li>Mario’s roadmap and scope (email → calendar and meetings → Teams → voice)</li>
-        <li>Decisions to leave with</li>
+        <li>What an agent is, and why a context layer matters (brief)</li>
+        <li>The assistant already running on Jason’s side (org chart)</li>
+        <li>Three demonstrations on test data only, on Jason’s development server</li>
+        <li>Plain inventory: what exists, what is working, what is still only an idea</li>
+        <li>Hermes for Mario: the proposed design, not built or reviewed</li>
+        <li>Copilot: does it cover this one personal pilot’s needs? Looked at together</li>
+        <li>Mario’s scope: email → calendar and meetings → Teams → voice</li>
+        <li>What we leave with: Romansas’s list of evidence and controls</li>
       </ol>
     </div>
   </div>
@@ -150,18 +151,18 @@ h1{font-family:var(--serif);font-size:38px;font-weight:600;letter-spacing:-.015e
     <div class="notes">
       <p>An agent is a harness around a frontier model, with tools and guardrails. It is not a chatbot bolted onto email.</p>
       <p>Usefulness comes from depth of trusted context. Thin context produces generic answers. A secure, evolving context layer of mail, calendar, decisions and operating knowledge is what lets the model behave like someone who lives inside the work.</p>
-      <p class="muted">North star, from Jason’s 20 Sept note: put Mario in a position where a continuously evolving, controlled context layer can be used with current models, then plug that layer into the enterprise stack IT accepts.</p>
+      <p class="muted">The aim: a continuously evolving, controlled context layer for Mario that can be used with current models, inside whatever stack IT approves.</p>
     </div>
   </div>
 
   <div class="block" id="s2">
-    <h2><span class="n">02</span>Hermes for Mario</h2>
+    <h2><span class="n">02</span>Hermes for Mario (proposal)</h2>
     <div class="notes">
-      <p>Hermes is the proposed chief-of-staff style agent for Milanobro: brief priorities, support decisions with context, draft work, and execute only with clear approval.</p>
-      <p><strong>Important distinction for this session.</strong> What you will see demonstrated runs on Jason’s infrastructure with test data. The proposed Milanobro deployment, with models via Bedrock or Azure OpenAI inside Milanobro’s cloud and scoped Microsoft Graph access, is a design. It is not yet built or IT-approved.</p>
+      <p>Hermes is the proposed chief-of-staff style assistant for Mario: brief priorities, support decisions with context, draft work, and act only with clear approval.</p>
+      <p><strong>Demo ≠ proposal.</strong> The assistant in the demonstrations runs on Jason’s own development server with test data. It is not the proposed deployment. The proposed design, an AI model running inside a Milano Bro cloud account, has not been built, connected, or security-reviewed. It is on this page for discussion, not as something ready to switch on.</p>
       <div class="callout">
-        <strong>Ask for this session</strong>
-        Access to begin a secure, evolving context layer for Mario, starting narrow and revocable. A clear boundary on what may be read. An owner on the Milanobro side for approvals and expansion.
+        <strong>Outcome hoped for</strong>
+        No decision is needed on this call. The useful result is a clear list from Romansas of the evidence and controls IT would need to see before approving anything, so the work can proceed in the order Romansas sets.
       </div>
     </div>
   </div>
@@ -169,7 +170,7 @@ h1{font-family:var(--serif);font-size:38px;font-weight:600;letter-spacing:-.015e
   <div class="block" id="s3">
     <h2><span class="n">03</span>Live agent org chart</h2>
     <div class="notes">
-      <p>The same pattern is already running for Jason. <strong>Hermes</strong> and <strong>Grok Bot</strong> are peer interfaces into one secure context layer, the Obsidian vault plus GBrain. Neither is primary or fallback. <strong>Grok Bot is the voice-facing interface</strong>: Jason uses it because its voice interface is the best available.</p>
+      <p>The same pattern is already running for Jason, on Jason’s own development server. <strong>Hermes</strong> and <strong>Grok Bot</strong> are peer interfaces into one secure context layer, the Obsidian vault plus GBrain. Neither is primary or fallback. <strong>Grok Bot is the voice-facing interface</strong>: Jason uses it because its voice interface is the best available. This is the demonstration harness, not the proposed Milano Bro deployment.</p>
       <a class="live" href="./agent-org-chart.html">
         <div>
           <div class="kicker">Live</div>
@@ -204,7 +205,7 @@ h1{font-family:var(--serif);font-size:38px;font-weight:600;letter-spacing:-.015e
         <div class="node chief">
           <div class="role">Coordination</div>
           <h3>Chief of staff</h3>
-          <p>Routes work across desks and holds the side-effect pause: drafts only until Jason approves. Hermes for Milanobro is the analogue of this seat.</p>
+          <p>Routes work across desks and holds the side-effect pause: drafts only until Jason approves. Hermes for Mario is the proposed analogue of this seat.</p>
           <div class="status">live</div>
         </div>
         <div class="conn"></div>
@@ -242,7 +243,7 @@ h1{font-family:var(--serif);font-size:38px;font-weight:600;letter-spacing:-.015e
   <div class="block" id="s4">
     <h2><span class="n">04</span>Demonstrations (test data only)</h2>
     <div class="notes">
-      <p>As offered on 20 Sept: no company data and no architectural commitments during the demos.</p>
+      <p>The existing assistant and its context layer, running on test data only, on Jason’s development server. Nothing is connected to any Milano Bro mailbox, tenant, or file store during the call.</p>
       <ol>
         <li><strong>Executive awareness.</strong> “What should I focus on today?” answered from seeded context.</li>
         <li><strong>Strategic support.</strong> “Help me think through this” with cited recall.</li>
@@ -252,35 +253,34 @@ h1{font-family:var(--serif);font-size:38px;font-weight:600;letter-spacing:-.015e
   </div>
 
   <div class="block" id="s5">
-    <h2><span class="n">05</span>Inventory Romansas asked for</h2>
+    <h2><span class="n">05</span>Plain inventory for Romansas</h2>
     <div class="notes">
-      <p class="muted">Labels are honest for this session. “Working” is used only where re-verified on the demo box.</p>
+      <p class="muted">What exists today, what is working, and what is still only an idea, so each item can be checked independently. “Working” is used only where re-verified on the demo server.</p>
       <div class="grid2">
-        <div class="node working"><div class="role">Working</div><h3>On test data (demo harness)</h3><p>Chat channel, meeting → actions on a pasted transcript, approval gate, memory with receipts. Subject to a fresh health check before being labelled live.</p></div>
-        <div class="node"><div class="role">Needs configuration</div><h3>Ops hygiene</h3><p>Scheduled brief and closeout, monitoring, backups, log rotation, fallback model.</p></div>
-        <div class="node"><div class="role">Needs development</div><h3>Enterprise path</h3><p>Tenant-scoped Graph app; RAG / context store; Bedrock or Azure OpenAI wiring in Milanobro’s account; retention, deletion and exit procedure.</p></div>
-        <div class="node"><div class="role">Planned</div><h3>Broader assistant</h3><p>Calendar, meetings and transcripts; Teams chats and channels; voice assistant, per Mario’s roadmap.</p></div>
+        <div class="node working"><div class="role">Working · test data</div><h3>Demo harness on Jason’s development server</h3><p>Chat channel, meeting → actions on a pasted transcript, approval gate, memory with receipts.</p></div>
+        <div class="node"><div class="role">Exists · needs configuration</div><h3>Operating hygiene</h3><p>Scheduled brief and closeout, monitoring, backups, log rotation.</p></div>
+        <div class="node"><div class="role">Not built</div><h3>Proposed Milano Bro deployment</h3><p>Model inside a Milano Bro cloud account; tenant-scoped, narrow Microsoft 365 access; context store; retention, deletion and exit procedure. Not built, connected, or security-reviewed.</p></div>
+        <div class="node"><div class="role">Only an idea</div><h3>Broader assistant</h3><p>Calendar, meetings and transcripts; Teams chats and channels; voice, per Mario’s scope.</p></div>
       </div>
-      <p style="margin-top:14px"><strong>Does the Bedrock version already work?</strong> No. It is the proposed deployment. Today’s demos use the existing harness on Jason’s infrastructure.</p>
+      <p style="margin-top:14px"><strong>Does the proposed cloud deployment already work?</strong> No. It has not been built. The demonstrations use the existing harness on Jason’s development server.</p>
     </div>
   </div>
 
   <div class="block" id="s6">
-    <h2><span class="n">06</span>Microsoft comparison (open questions)</h2>
+    <h2><span class="n">06</span>Copilot: a question to look at together</h2>
     <div class="notes">
-      <p>Romansas’s frame: start from Microsoft 365 Copilot / Copilot Studio, because mail, calendar, Teams and meetings already live there. Claude does not by itself require AWS. A fair comparison covers capability gap, build effort, run cost and ongoing support.</p>
+      <p>Copilot is a reasonable default, and it is understandable that IT would prefer it: mail, calendar, Teams and meetings already live there. The narrower question is whether it covers the specific needs of this one personal pilot.</p>
       <ul>
-        <li>What can Copilot Studio already do for Mario’s executive-assistant goal?</li>
-        <li>Where does a separate context layer add leverage Copilot does not?</li>
-        <li>What company data would be stored in AWS versus retrieved on demand?</li>
-        <li>AWS Bedrock versus Azure OpenAI: same design idea, different home cloud. IT chooses.</li>
+        <li>Multilingual handling, at the level Mario works in day to day</li>
+        <li>The degree of personalization Mario has described</li>
+        <li>Where a separate, evolving context layer would add something Copilot does not, if anywhere</li>
       </ul>
-      <p class="muted">Session posture: demonstrate first, settle architecture after both sides have seen the demos.</p>
+      <p class="muted">To be looked at together, not argued to a conclusion. Which cloud account would host a model, if any, is IT’s call.</p>
     </div>
   </div>
 
   <div class="block" id="s7">
-    <h2><span class="n">07</span>Mario’s roadmap (scope)</h2>
+    <h2><span class="n">07</span>Mario’s scope</h2>
     <div class="notes">
       <span class="tag">Comfortable now</span>
       <p>No other employees’ mailboxes. No SharePoint, OneDrive or broad document stores for now. Microsoft 365 access limited to what the pilot needs.</p>
@@ -292,19 +292,19 @@ h1{font-family:var(--serif);font-size:38px;font-weight:600;letter-spacing:-.015e
   </div>
 
   <div class="block" id="s8">
-    <h2><span class="n">08</span>Decisions to leave with</h2>
+    <h2><span class="n">08</span>What we leave with</h2>
     <div class="notes">
+      <p>No decision is needed on this call.</p>
       <ul>
-        <li>Whether the three demos match Mario’s “true business assistant” objective</li>
-        <li>Preferred architecture lane to investigate next: Copilot Studio, or AWS / Azure-hosted Hermes with a context layer</li>
-        <li>First context lane: scope, owner and revoke path</li>
-        <li>Evidence Romansas needs before any company data connects</li>
-        <li>Follow-up date. Fees and support terms are not for this meeting.</li>
+        <li>From Romansas: a clear list of the evidence and controls IT would need to see before approving anything</li>
+        <li>The order in which to work through that list, as Romansas sets it</li>
+        <li>From Mario: whether the demonstrations match the assistant Mario has in mind</li>
+        <li>A follow-up date</li>
       </ul>
     </div>
   </div>
 
-  <div class="foot">Checklist source: Gmail thread “AI assistant — opening the conversation” (Mario Testa, Romansas / IT, Maria Chiara Rossi, Jason · 14–21 Sept 2026). Demo ≠ proposal. No company data on this page. Live org chart: <a href="./agent-org-chart.html">agent-org-chart.html</a>.</div>
+  <div class="foot">Source: email thread “AI assistant — opening the conversation” (Mario Testa, Romansas / IT, Jason · Sept 2026). Demo ≠ proposal. The demo assistant runs on Jason’s development server; the proposed Milano Bro deployment has not been built. No company data on this page. Org chart: <a href="./agent-org-chart.html">agent-org-chart.html</a>.</div>
 </div>
 </body>
 </html>
