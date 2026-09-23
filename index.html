@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Milanobro — talking notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#f7f6f3; --ink:#1a1d24; --mute:#5c6573; --line:#d8d4cc;
+  --card:#fff; --soft:#eef1f6; --accent:#2f5b9a; --ok:#1f7a4d;
+  --font:"IBM Plex Sans",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.55;min-height:100vh}
+.wrap{max-width:760px;margin:0 auto;padding:48px 28px 96px}
+.meta{font-family:var(--mono);font-size:11px;color:var(--mute);letter-spacing:.04em;margin-bottom:28px}
+h1{font-size:26px;font-weight:600;letter-spacing:-.02em;margin-bottom:8px}
+.sub{color:var(--mute);font-size:15px;max-width:42ch;margin-bottom:40px}
+.block{margin-bottom:36px}
+.block h2{
+  font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--mute);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--line);
+}
+.notes{font-size:16px}
+.notes p{margin:0 0 12px}
+.notes p:last-child{margin-bottom:0}
+.notes .ask{margin-top:16px;padding:14px 16px;background:var(--soft);border-left:3px solid var(--accent);border-radius:0 8px 8px 0}
+.notes .ask strong{display:block;font-weight:600;margin-bottom:4px}
+
+/* Org chart */
+.org{margin-top:8px}
+.org-top{display:flex;justify-content:center;margin-bottom:0}
+.node{
+  background:var(--card);border:1px solid var(--line);border-radius:12px;
+  padding:14px 16px;min-width:200px;max-width:280px;text-align:center;
+  box-shadow:0 1px 2px rgba(26,29,36,.04);
+}
+.node.chief{border-color:#b8c7dc;background:linear-gradient(180deg,#fff,#f3f6fb)}
+.node .role{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
+.node h3{font-size:14px;font-weight:600;margin-bottom:4px}
+.node p{font-size:12px;color:var(--mute);line-height:1.4}
+.trunk{
+  width:1px;height:28px;background:var(--line);margin:0 auto;
+}
+.bar{
+  height:1px;background:var(--line);margin:0 auto;width:calc(100% - 40px);max-width:640px;position:relative;
+}
+.leaves{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:12px;
+  max-width:680px;margin:0 auto;padding-top:0;
+}
+.leaf{display:flex;flex-direction:column;align-items:center}
+.stem{width:1px;height:28px;background:var(--line)}
+.leaf .node{min-width:0;width:100%;max-width:none;text-align:left}
+@media(max-width:720px){
+  .leaves{grid-template-columns:1fr 1fr}
+  .bar{width:calc(50% + 6px)}
+}
+@media(max-width:480px){
+  .leaves{grid-template-columns:1fr}
+  .bar{display:none}
+  .stem{height:12px}
+}
+.status{
+  display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--ok);
+  margin-top:8px;font-family:var(--mono);
+}
+.status::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px rgba(31,122,77,.15)}
+.foot{margin-top:48px;padding-top:16px;border-top:1px solid var(--line);font-size:12px;color:var(--mute)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="meta">Milanobro · working notes · not a deck</div>
+  <h1>Agentic AI — talking points</h1>
+  <p class="sub">Quiet notes for the conversation. Say it in your own words.</p>
+
+  <div class="block">
+    <h2>1 · What an agent is</h2>
+    <div class="notes">
+      <p>A harness around a frontier model — Claude, Grok, and peers — with tools and guardrails.</p>
+      <p>Not a chatbot glued to email. A thin control layer so the model can work a lane of the business.</p>
+    </div>
+  </div>
+
+  <div class="block">
+    <h2>2 · What makes it useful</h2>
+    <div class="notes">
+      <p>Same as a good chat window: depth of context. Thin context = generic answers. Trusted depth = judgment that feels like someone who lives inside the company.</p>
+      <p>The real leverage is a <strong>secure context layer</strong> — mail, docs, decisions — that stays inside your boundary and grows over time.</p>
+    </div>
+  </div>
+
+  <div class="block">
+    <h2>3 · Hermes for Mario</h2>
+    <div class="notes">
+      <p>Chief-of-staff style agent for Milanobro. Meant to sit in Mario’s AWS, talk to a model through a path you control, from a scoped and revocable set of inputs.</p>
+      <p>Brief what matters. Think through decisions with company context. Draft work; live sends only with clear approval. Reachable on channels Mario already uses, once wired.</p>
+      <p>Today’s demos stay on test data until a context lane is opened.</p>
+    </div>
+  </div>
+
+  <div class="block">
+    <h2>4 · What we need</h2>
+    <div class="notes">
+      <div class="ask">
+        <strong>Access to start a secure, evolving context layer</strong>
+        One scoped mailbox or doc set to begin (revocable). Clear boundary on what Hermes may read. An owner on the Milanobro side for approvals and expansion.
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h2>5 · Live example — Jason’s agents</h2>
+    <p style="font-size:14px;color:var(--mute);margin-bottom:18px">Same pattern, already running. Then one or two short demos.</p>
+
+    <div class="org">
+      <div class="org-top">
+        <div class="node chief">
+          <div class="role">Coordination</div>
+          <h3>Chief of staff</h3>
+          <p>Routes work across desks. Holds the side-effect pause — drafts only until Jason approves. Hermes is the Milanobro analogue of this seat.</p>
+          <div class="status">live</div>
+        </div>
+      </div>
+      <div class="trunk"></div>
+      <div class="bar"></div>
+      <div class="leaves">
+        <div class="leaf">
+          <div class="stem"></div>
+          <div class="node">
+            <div class="role">Business</div>
+            <h3>Mimi’s Market</h3>
+            <p>Granola ops — markets, kitchen, inventory.</p>
+            <div class="status">live</div>
+          </div>
+        </div>
+        <div class="leaf">
+          <div class="stem"></div>
+          <div class="node">
+            <div class="role">Business</div>
+            <h3>Michelle Galoob Consulting</h3>
+            <p>MGC day-to-day — schedule, launches, client ops.</p>
+            <div class="status">live</div>
+          </div>
+        </div>
+        <div class="leaf">
+          <div class="stem"></div>
+          <div class="node">
+            <div class="role">Business</div>
+            <h3>Jason / Work Different AI</h3>
+            <p>Consulting and brand — AI projects and clients.</p>
+            <div class="status">live</div>
+          </div>
+        </div>
+        <div class="leaf">
+          <div class="stem"></div>
+          <div class="node">
+            <div class="role">Money</div>
+            <h3>Ledger</h3>
+            <p>Personal and business accounting — cash, cards, picture.</p>
+            <div class="status">live</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h2>6 · How we’ll show it</h2>
+    <div class="notes">
+      <p>Walk the four ideas. Show this org chart. Run one or two short demos (no Milanobro data yet). Ask to open the first context lane.</p>
+    </div>
+  </div>
+
+  <div class="foot">Working notes · private · update when the access path is agreed</div>
+</div>
+</body>
+</html>
