@@ -3,313 +3,266 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Milano Bro — AI assistant working session</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<title>An AI assistant for Milano Bro</title>
+<meta name="description" content="Working session with Mario Testa and Romansas: the opportunity, a secure context layer, what exists today, and a phased path IT controls." />
 <style>
 :root{
-  --bg:#f7f4ee; --paper:#fffdf9; --ink:#1f2328; --mute:#646c76; --line:#e4ded3; --line-soft:#ece7dd;
-  --accent:#2f5a8a; --accent-soft:#eaf0f7; --ok:#3a7a5b; --ok-soft:rgba(58,122,91,.14);
-  --plum:#6b4f9a; --plum-soft:#f1ecf8; --sage-soft:#f1f6ee; --sage-line:#c9d9bf;
-  --serif:"Source Serif 4",Georgia,serif; --sans:"Inter",system-ui,-apple-system,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+  --bg:#ffffff; --bg2:#f5f5f7; --ink:#1d1d1f; --mute:#6e6e73; --line:#e5e5ea;
+  --blue:#0071e3; --blue-soft:#eaf3ff; --green:#1d9a5b; --green-soft:#e6f6ee;
+  --amber:#b7791f; --amber-soft:#fff4e0; --red:#c93b32; --red-soft:#fdeceb;
+  --violet:#5e5ce6; --violet-soft:#eeeefc;
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Inter",Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,monospace;
+  --ease:cubic-bezier(.22,.61,.36,1);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.6;min-height:100vh;-webkit-font-smoothing:antialiased}
-a{color:var(--accent)}
-.wrap{max-width:860px;margin:0 auto;padding:56px 32px 96px}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.5;letter-spacing:-.01em;-webkit-font-smoothing:antialiased}
+a{color:var(--blue);text-decoration:none}
+h1,h2,h3{font-weight:600;line-height:1.1;letter-spacing:-.02em;text-wrap:balance}
+.wrap{max-width:1000px;margin:0 auto;padding:0 24px}
 
-/* header */
-.meta{font-family:var(--mono);font-size:11px;color:var(--mute);letter-spacing:.05em;text-transform:uppercase;margin-bottom:22px;display:flex;flex-wrap:wrap;gap:6px 14px}
-.meta span+span::before{content:"·";margin-right:14px;color:var(--line)}
-h1{font-family:var(--serif);font-size:38px;font-weight:600;letter-spacing:-.015em;line-height:1.15;margin-bottom:12px}
-.sub{color:var(--mute);font-size:16.5px;max-width:56ch;margin-bottom:22px}
-.links{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:48px}
-.chip{
-  display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-size:13.5px;font-weight:500;color:var(--ink);
-  background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:8px 14px;
-  transition:border-color .15s,box-shadow .15s;
-}
-.chip:hover{border-color:#b9c6d6;box-shadow:0 2px 8px rgba(31,35,40,.06)}
-.chip .dot{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px var(--ok-soft)}
-.chip.quiet{color:var(--mute)}
+/* nav */
+.nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.78);-webkit-backdrop-filter:saturate(1.6) blur(18px);backdrop-filter:saturate(1.6) blur(18px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:52px}
+.brand{font-weight:600;font-size:15px;white-space:nowrap}
+.brand span{color:var(--mute);font-weight:400}
+.navlinks{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.navlinks::-webkit-scrollbar{display:none}
+.navlinks a{color:var(--mute);font-size:13px;font-weight:500;padding:6px 10px;border-radius:999px;white-space:nowrap}
+.navlinks a:hover,.navlinks a.on{background:var(--bg2);color:var(--ink)}
+
+/* hero */
+.hero{padding:88px 0 56px;text-align:center}
+.eyebrow{color:var(--blue);font-weight:600;font-size:15px;margin-bottom:14px}
+.hero h1{font-size:clamp(40px,7vw,72px);max-width:16ch;margin:0 auto 18px}
+.hero p{font-size:clamp(19px,2.3vw,24px);color:var(--mute);max-width:44ch;margin:0 auto;line-height:1.4}
+.pills{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin-top:26px}
+.pill{font-size:14px;font-weight:500;padding:7px 14px;border-radius:999px;background:var(--bg2);color:var(--mute)}
+.pill.green{background:var(--green-soft);color:var(--green)}
 
 /* sections */
-.block{margin-bottom:44px}
-.block h2{
-  display:flex;align-items:baseline;gap:12px;
-  font-family:var(--sans);font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--mute);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--line);
-}
-.block h2 .n{font-family:var(--mono);font-weight:500;color:var(--accent)}
-.notes{font-size:15.5px}
-.notes p,.notes li{margin:0 0 10px}
-.notes ul,.notes ol{margin:0 0 12px 1.2rem}
-.notes li::marker{color:var(--mute)}
-.notes .muted{color:var(--mute)}
-.notes strong{font-weight:600}
-.agenda{list-style:none;margin:0;padding:0;counter-reset:a}
-.agenda li{display:flex;gap:14px;padding:8px 0;border-bottom:1px dashed var(--line-soft);margin:0}
-.agenda li:last-child{border-bottom:0}
-.agenda li::before{counter-increment:a;content:counter(a,decimal-leading-zero);font-family:var(--mono);font-size:12px;color:var(--accent);padding-top:3px;min-width:22px}
-.callout{
-  margin-top:16px;padding:16px 18px;background:var(--accent-soft);
-  border-left:3px solid var(--accent);border-radius:0 10px 10px 0;
-}
-.callout strong{display:block;margin-bottom:4px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+section{padding:72px 0;border-top:1px solid var(--line)}
+.sec-eyebrow{color:var(--blue);font-weight:600;font-size:14px;margin-bottom:10px}
+.h2{font-size:clamp(30px,4.4vw,46px);max-width:22ch;margin-bottom:14px}
+.lead{font-size:clamp(18px,2vw,21px);color:var(--mute);max-width:56ch;line-height:1.45}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:34px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:34px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:34px}
+.card{background:var(--bg2);border-radius:20px;padding:24px}
+.card h3{font-size:20px;margin-bottom:6px}
+.card p{color:var(--mute);font-size:15.5px}
+.card .chip{display:inline-block;font-size:12px;font-weight:600;letter-spacing:.03em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px;color:#fff}
+.chip.green{background:var(--green)}.chip.amber{background:var(--amber)}.chip.red{background:var(--red)}.chip.violet{background:var(--violet)}.chip.blue{background:var(--blue)}
+.card.green{background:var(--green-soft)}.card.amber{background:var(--amber-soft)}.card.red{background:var(--red-soft)}.card.violet{background:var(--violet-soft)}
+.card.green p,.card.amber p,.card.red p,.card.violet p{color:var(--ink);opacity:.8}
 
-/* live card */
-.live{
-  display:grid;grid-template-columns:1fr auto;align-items:center;gap:18px;text-decoration:none;color:inherit;
-  background:var(--paper);border:1px solid var(--line);border-radius:14px;
-  padding:20px 22px;margin:12px 0 18px;transition:border-color .15s,box-shadow .15s,transform .15s;
-}
-.live:hover{border-color:#b9c6d6;box-shadow:0 4px 14px rgba(31,35,40,.07);transform:translateY(-1px)}
-.live .kicker{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ok);margin-bottom:8px}
-.live .kicker::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px var(--ok-soft)}
-.live h3{font-family:var(--serif);font-size:20px;font-weight:600;margin-bottom:4px;letter-spacing:-.01em}
-.live p{font-size:13.5px;color:var(--mute);margin:0}
-.live .go{font-size:14px;color:var(--accent);font-weight:500;white-space:nowrap}
-
-/* mini org chart */
-.org{margin-top:22px;display:flex;flex-direction:column;align-items:center}
-.node{
-  background:var(--paper);border:1px solid var(--line);border-radius:12px;
-  padding:13px 15px;box-shadow:0 1px 2px rgba(31,35,40,.04);
-}
-.node .role{font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
-.node h3{font-size:14px;font-weight:600;margin-bottom:3px}
-.node p{font-size:12px;color:var(--mute);line-height:1.45;margin:0}
-.node.context{width:100%;max-width:640px;text-align:center;border-color:var(--sage-line);background:linear-gradient(180deg,var(--paper),var(--sage-soft))}
-.node.context .role{color:var(--ok)}
-.node.chief{width:100%;max-width:340px;text-align:center;border-color:#c6d2e0;background:linear-gradient(180deg,var(--paper),#f1f5fa)}
-.peers{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;max-width:560px}
-.peer{text-align:center;padding:14px 16px}
-.peer .badge{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:999px;margin-bottom:8px}
-.peer.hermes{border-color:#cfc3e3}
-.peer.hermes .badge{background:var(--plum-soft);color:var(--plum)}
-.peer.grok{border-color:#cfcfcf}
-.peer.grok .badge{background:#eeece8;color:#3a3a3a}
-.peer h3{font-size:15px}
-.conn{width:1px;height:20px;background:var(--line)}
-.conn-label{font-family:var(--mono);font-size:10px;color:var(--mute);letter-spacing:.08em;text-transform:uppercase;margin:2px 0}
-.bar{height:1px;background:var(--line);width:calc(100% - 24px);max-width:760px}
-.leaves{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;max-width:790px}
-.leaf{display:flex;flex-direction:column;align-items:center}
-.stem{width:1px;height:20px;background:var(--line)}
-.leaf .node{width:100%}
-.status{display:inline-flex;align-items:center;gap:6px;font-size:10px;color:var(--ok);margin-top:8px;font-family:var(--mono);letter-spacing:.04em}
-.status::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px var(--ok-soft)}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
-.grid2 .node .role{color:var(--mute)}
-.grid2 .node.working .role{color:var(--ok)}
-.foot{margin-top:56px;padding-top:16px;border-top:1px solid var(--line);font-size:12.5px;color:var(--mute);line-height:1.6}
-
-/* graphic thumbnails + lightbox */
-.gfx{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:18px 0 6px}
-.gfx.one{grid-template-columns:minmax(0,420px)}
-.gfx.two{grid-template-columns:repeat(2,minmax(0,420px))}
-.gcard{position:relative;display:block;text-decoration:none;color:inherit;border-radius:14px;overflow:hidden;background:#000;border:1px solid var(--line);box-shadow:0 1px 2px rgba(31,35,40,.05);transition:transform .35s cubic-bezier(.22,.61,.36,1),box-shadow .35s cubic-bezier(.22,.61,.36,1)}
-.gcard img{display:block;width:100%;height:auto;aspect-ratio:16/11;object-fit:cover;object-position:top;transition:transform .6s cubic-bezier(.22,.61,.36,1)}
-.gcard .cap{position:absolute;inset:auto 0 0 0;padding:26px 14px 12px;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.72));color:#fff;font-size:13px;font-weight:500;letter-spacing:-.005em;display:flex;justify-content:space-between;align-items:center;gap:8px}
-.gcard .cap span{opacity:.7;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase}
-.gcard:hover,.gcard:focus-visible{transform:translateY(-4px) scale(1.025);box-shadow:0 18px 40px rgba(31,35,40,.18);z-index:1;outline:none}
+/* graphic cards */
+.gfx{display:grid;gap:16px;margin-top:34px}
+.gfx.two{grid-template-columns:1fr 1fr}
+.gfx.one{grid-template-columns:minmax(0,680px);justify-content:center}
+.gcard{position:relative;display:block;border-radius:20px;overflow:hidden;background:#000;box-shadow:0 2px 6px rgba(0,0,0,.06),0 12px 30px rgba(0,0,0,.08);transition:transform .4s var(--ease),box-shadow .4s var(--ease)}
+.gcard img{display:block;width:100%;height:auto;aspect-ratio:16/11;object-fit:cover;object-position:top;transition:transform .7s var(--ease)}
+.gcard .cap{position:absolute;inset:auto 0 0 0;padding:30px 18px 14px;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.75));color:#fff;display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:14px;font-weight:500}
+.gcard .cap span{font-size:12px;opacity:.75;white-space:nowrap}
+.gcard:hover,.gcard:focus-visible{transform:translateY(-5px) scale(1.02);box-shadow:0 6px 14px rgba(0,0,0,.08),0 28px 60px rgba(0,0,0,.16);outline:none;z-index:1}
 .gcard:hover img{transform:scale(1.04)}
-.gnote{font-size:12.5px;color:var(--mute);margin:0 0 6px}
+.gnote{text-align:center;color:var(--mute);font-size:13.5px;margin-top:12px}
+
+/* flow of phases */
+.phases{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:34px;background:var(--bg2);border-radius:20px;overflow:hidden}
+.ph{padding:22px 22px;border-left:1px solid var(--line)}
+.ph:first-child{border-left:0;background:var(--blue);color:#fff}
+.ph .n{font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--blue)}
+.ph:first-child .n{color:rgba(255,255,255,.8)}
+.ph h3{font-size:19px;margin:4px 0 6px}
+.ph p{font-size:14.5px;color:var(--mute)}
+.ph:first-child p{color:rgba(255,255,255,.85)}
+.ph .gate{display:inline-block;margin-top:10px;font-size:12px;font-weight:600;color:var(--amber)}
+.ph:first-child .gate{color:#ffd60a}
+
+/* org card */
+.orgcard{display:grid;grid-template-columns:1.1fr 1fr;gap:0;background:#000;color:#f5f5f7;border-radius:20px;overflow:hidden;margin-top:34px}
+.orgcard .txt{padding:30px}
+.orgcard .txt h3{font-size:24px;margin-bottom:10px}
+.orgcard .txt p{color:#a1a1a6;font-size:15.5px;margin-bottom:18px}
+.orgcard .btn{display:inline-block;background:#2997ff;color:#fff;font-weight:600;font-size:14px;padding:10px 18px;border-radius:999px}
+.orgcard .btn.ghost{background:rgba(255,255,255,.12);margin-left:6px}
+.tree{padding:26px;display:flex;flex-direction:column;align-items:center;gap:0;background:#0a0a0a}
+.tb{background:#1c1c1e;border-radius:12px;padding:8px 14px;font-size:13px;text-align:center;width:100%}
+.tb b{display:block;font-weight:600;font-size:14px}
+.tb span{color:#a1a1a6}
+.tb.blue{background:#0e2a48;color:#fff}.tb.blue span{color:#9ec9ff}
+.tb.amber{background:#332b0a}.tb.amber span{color:#e6c96a}
+.tb.green{background:#0f2e1c;box-shadow:inset 0 0 0 1.5px #30d158}.tb.green span{color:#8fe0a8}
+.tl{width:1px;height:12px;background:#3a3a3c}
+.trow{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}
+.trow3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;width:100%}
+.trow3 .tb{padding:6px 6px;font-size:11.5px}
+
+/* controls */
+.ctl .ic{width:34px;height:34px;border-radius:10px;background:var(--blue-soft);color:var(--blue);display:grid;place-items:center;font-weight:700;margin-bottom:12px}
+.note{margin-top:22px;background:var(--bg2);border-radius:16px;padding:16px 20px;font-size:15px;color:var(--mute)}
+.note b{color:var(--ink)}
+
+/* demos */
+.demo .k{font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--blue);margin-bottom:8px}
+.demo .q{font-size:18px;font-weight:600;margin-bottom:6px}
+.demo .m{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font-size:14.5px;color:var(--ink)}
+.demo .m b{color:var(--blue)}
+
+/* leave */
+.leave .card h3{color:var(--blue);font-size:13px;letter-spacing:.04em;text-transform:uppercase;margin-bottom:10px}
+.leave ul{padding-left:1.1em;color:var(--ink);font-size:15.5px;display:grid;gap:6px}
+footer{padding:36px 0 64px;color:var(--mute);font-size:13.5px;text-align:center;border-top:1px solid var(--line)}
+
+/* lightbox */
 .lb{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(20,22,24,.55);-webkit-backdrop-filter:blur(18px) saturate(1.2);backdrop-filter:blur(18px) saturate(1.2);opacity:0;transition:opacity .35s ease}
-.lb.open{display:flex}
-.lb.show{opacity:1}
-.lb .frame{position:relative;width:min(1120px,100%);height:min(92vh,100%);background:#000;border-radius:18px;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,.45);transform:scale(.92) translateY(12px);transition:transform .45s cubic-bezier(.22,.61,.36,1)}
+.lb.open{display:flex}.lb.show{opacity:1}
+.lb .frame{position:relative;width:min(1120px,100%);height:min(92vh,100%);background:#000;border-radius:18px;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,.45);transform:scale(.92) translateY(12px);transition:transform .45s var(--ease)}
 .lb.show .frame{transform:none}
 .lb iframe{width:100%;height:100%;border:0;display:block;background:#000}
-.lb .x{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#fff;font-size:20px;line-height:1;cursor:pointer;display:grid;place-items:center;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
-.lb .x:hover{background:rgba(255,255,255,.26)}
-.lb .nv{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#fff;font-size:20px;cursor:pointer;display:grid;place-items:center}
-.lb .nv:hover{background:rgba(255,255,255,.26)}
+.lb button{border:0;cursor:pointer;color:#fff;background:rgba(255,255,255,.14);display:grid;place-items:center;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.lb button:hover{background:rgba(255,255,255,.26)}
+.lb .x{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;font-size:20px}
+.lb .nv{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;font-size:20px}
 .lb .nv.prev{left:12px}.lb .nv.next{right:12px}
-.lb .open-new{position:absolute;bottom:12px;right:14px;font-size:12px;color:rgba(255,255,255,.75);text-decoration:none;background:rgba(255,255,255,.12);padding:6px 10px;border-radius:999px}
+.lb .open-new{position:absolute;bottom:12px;right:14px;font-size:12px;color:rgba(255,255,255,.8);background:rgba(255,255,255,.12);padding:6px 10px;border-radius:999px}
 body.lb-lock{overflow:hidden}
-@media (max-width:720px){.gfx,.gfx.two{grid-template-columns:1fr}.gfx.one{grid-template-columns:1fr}.lb{padding:10px}.lb .frame{border-radius:12px}.lb .nv{display:none}}
+
+/* motion */
 @media (prefers-reduced-motion:reduce){.gcard,.gcard img,.lb,.lb .frame{transition:none}}
-@media(max-width:720px){
-  h1{font-size:31px}
-  .wrap{padding:40px 22px 72px}
-  .live{grid-template-columns:1fr}
-  .leaves,.grid2{grid-template-columns:1fr 1fr}
-  .bar{width:calc(50% + 4px)}
-}
-@media(max-width:520px){
-  .leaves,.grid2,.peers{grid-template-columns:1fr}
-  .bar{display:none}.stem{height:10px}
-}
+
+@media (max-width:860px){.grid3,.grid4,.phases{grid-template-columns:1fr 1fr}.ph{border-left:0;border-top:1px solid var(--line)}.orgcard{grid-template-columns:1fr}.lb .nv{display:none}}
+@media (max-width:600px){.grid2,.grid3,.grid4,.phases,.gfx.two{grid-template-columns:1fr}.hero{padding:56px 0 40px}section{padding:52px 0}.brand span{display:none}.lb{padding:10px}}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="meta"><span>Milano Bro</span><span>Working session</span><span>Thu 24 Sept 2026 · 12:00–1:00 PM Eastern · Teams</span><span>Private</span></div>
-  <h1>AI assistant for Milano Bro</h1>
-  <p class="sub">Session page for the call with Mario Testa and Romansas. Three parts: the agentic opportunity, a secure context layer, and an example of how Jason uses his agents. Demonstrations are on test data only. Nothing is connected to any Milano Bro mailbox, tenant, or file store. No decision is needed on this call.</p>
-  <div class="links">
-    <a class="chip" href="./agent-org-chart.html"><span class="dot"></span>Live agent org chart</a>
-    <a class="chip quiet" href="https://jmg424.github.io/jason-operating-dashboard/" target="_blank" rel="noopener">Operating dashboard ↗</a>
-  </div>
 
-  <div class="block" id="agenda">
-    <h2>Agenda</h2>
-    <div class="notes">
-      <ol class="agenda">
-        <li>The agentic opportunity: the difference between a chatbot and an agent. An agent has prior context and access to tools. Context is the important part.</li>
-        <li>A secure context layer, and the opportunity that creates. Presented as a proposal, with the plain inventory for Romansas and Copilot looked at together.</li>
-        <li>An example of how Jason uses his agents: the live org chart and demonstrations on test data only.</li>
-      </ol>
+<nav class="nav"><div class="wrap">
+  <div class="brand">Milano Bro <span>· AI assistant</span></div>
+  <div class="navlinks" id="navlinks">
+    <a href="#opportunity">Opportunity</a><a href="#proposal">The proposal</a><a href="#today">Today</a><a href="#proven">Proven</a><a href="#control">IT control</a><a href="#next">Next steps</a>
+  </div>
+</div></nav>
+
+<header class="hero wrap">
+  <p class="eyebrow">Working session · Mario Testa &amp; Romansas · 24 September 2026</p>
+  <h1>An assistant that knows how you work.</h1>
+  <p>Not an email tool. A business assistant that helps with information, priorities, communication and decisions across the company, built one safe step at a time.</p>
+  <div class="pills">
+    <span class="pill green">Demos run on Jason's own data. No Milano Bro data is connected.</span>
+    <span class="pill">No decision needed today</span>
+  </div>
+</header>
+
+<section id="opportunity"><div class="wrap">
+  <p class="sec-eyebrow">The opportunity</p>
+  <h2 class="h2">A chatbot answers. An agent works for you.</h2>
+  <p class="lead">An agent has two things a chatbot does not: <b>context</b> about you and your work, and <b>tools</b> such as mail and calendar, used only with your approval. Context is the important part. Thin context gives generic answers. Deep, trusted context gives judgment that feels like someone who lives inside the company.</p>
+  <div class="gfx two">
+    <a class="gcard" href="./graphics/1-what-an-agent-is.html" aria-label="Open graphic: A chat answers. An agent works.">
+      <img src="./graphics/thumb-1-what-an-agent-is.png" alt="A chat answers. An agent works." width="1280" height="880" loading="lazy">
+      <span class="cap">A chat answers. An agent works.<span>Graphic 1</span></span>
+    </a>
+    <a class="gcard" href="./graphics/2-what-makes-it-useful.html" aria-label="Open graphic: Same brain. Context is the difference.">
+      <img src="./graphics/thumb-2-what-makes-it-useful.png" alt="Same brain. Context is the difference." width="1280" height="880" loading="lazy">
+      <span class="cap">Same brain. Context is the difference.<span>Graphic 2</span></span>
+    </a>
+  </div>
+  <p class="gnote">Click a graphic to open it.</p>
+</div></section>
+
+<section id="proposal"><div class="wrap">
+  <p class="sec-eyebrow">The proposal</p>
+  <h2 class="h2">A secure context layer for Mario, with an assistant on top.</h2>
+  <p class="lead">A private memory of Mario's priorities, people, decisions and know-how, held in a cloud account Milano Bro controls, with narrow Microsoft 365 access that IT grants and can revoke. On top of it, a chief-of-staff assistant that briefs what matters, thinks through decisions with company context, drafts the work, and acts only with clear approval.</p>
+  <div class="gfx one">
+    <a class="gcard" href="./graphics/3-hermes-for-mario.html" aria-label="Open graphic: A chief of staff that never acts alone.">
+      <img src="./graphics/thumb-3-hermes-for-mario.png" alt="A chief of staff that never acts alone." width="1280" height="880" loading="lazy">
+      <span class="cap">A chief of staff that never acts alone.<span>Graphic 3</span></span>
+    </a>
+  </div>
+  <div class="phases">
+    <div class="ph"><div class="n">Phase 1</div><h3>Email</h3><p>Morning brief, triage, drafted replies.</p><span class="gate">IT review before start</span></div>
+    <div class="ph"><div class="n">Phase 2</div><h3>Calendar &amp; meetings</h3><p>Meeting prep, actions from transcripts, follow-ups tracked.</p><span class="gate">IT review before start</span></div>
+    <div class="ph"><div class="n">Phase 3</div><h3>Teams</h3><p>A full picture of what's moving across the company.</p><span class="gate">IT review before start</span></div>
+    <div class="ph"><div class="n">Later</div><h3>Voice &amp; more</h3><p>Talk to it anywhere. Deeper operating know-how.</p><span class="gate">IT review before start</span></div>
+  </div>
+  <div class="note"><b>Scope, as Mario set it.</b> No other employees' mailboxes. No SharePoint, OneDrive or broad document stores for now. Microsoft 365 access limited to what the pilot needs. Which cloud hosts the memory is IT's decision.</div>
+</div></section>
+
+<section id="today"><div class="wrap">
+  <p class="sec-eyebrow">Where we are</p>
+  <h2 class="h2">A clear view of what exists today.</h2>
+  <p class="lead">So each item can be checked on its own. "Working" is used only where it runs today.</p>
+  <div class="grid4">
+    <div class="card green"><span class="chip green">Working</span><h3>Jason's assistant</h3><p>Runs daily on Jason's own data. Chat, voice, meeting → actions, approval gate, memory with sources.</p></div>
+    <div class="card amber"><span class="chip amber">Needs setup</span><h3>Daily operations</h3><p>Scheduled briefs, monitoring, backups. Built, needs configuring for a new user.</p></div>
+    <div class="card red"><span class="chip red">Not built yet</span><h3>Milano Bro version</h3><p>Private memory in a company-controlled cloud, with narrow Microsoft 365 access. Not built, connected, or security-reviewed.</p></div>
+    <div class="card violet"><span class="chip violet">Future phases</span><h3>Mario's full assistant</h3><p>Calendar, meetings, Teams and voice, added one phase at a time.</p></div>
+  </div>
+</div></section>
+
+<section id="proven"><div class="wrap">
+  <p class="sec-eyebrow">Proven today</p>
+  <h2 class="h2">Jason runs his own businesses this way, every day.</h2>
+  <p class="lead">The same pattern is already working on Jason's own data and machines: two ways in (chat and voice), a chief of staff that routes work and holds the approval gate, six live desks, and one shared memory. This is what you'll see in the demos.</p>
+  <div class="orgcard">
+    <div class="txt">
+      <h3>The live agent org chart</h3>
+      <p>Hermes (chat) and Grok Bot (voice) are equal front doors into one context layer: an Obsidian vault as the human-readable truth, GBrain as the search over it. Agents read there; none keeps a second brain.</p>
+      <a class="btn" href="./agent-org-chart.html">Open the org chart</a><a class="btn ghost" href="https://claude.ai/artifact/SJmEkMJuBfpTdvaBMabLHS#context" target="_blank" rel="noopener">The context layer ↗</a>
+    </div>
+    <div class="tree" aria-label="Summary of Jason's agent org chart">
+      <div class="tb"><b>Jason</b><span>asks · approves · decides</span></div>
+      <div class="tl"></div>
+      <div class="trow"><div class="tb blue"><b>Hermes</b><span>chat</span></div><div class="tb blue"><b>Grok Bot</b><span>voice</span></div></div>
+      <div class="tl"></div>
+      <div class="tb amber"><b>Chief of staff</b><span>routes work · approval gate</span></div>
+      <div class="tl"></div>
+      <div class="trow3"><div class="tb">Mimi's Market</div><div class="tb">MG Consulting</div><div class="tb">Work Different AI</div><div class="tb">Ledger</div><div class="tb">Health coach</div><div class="tb">Homeopathy</div></div>
+      <div class="tl"></div>
+      <div class="tb green"><b>Context layer</b><span>Obsidian vault + GBrain</span></div>
     </div>
   </div>
-
-  <div class="block" id="s1">
-    <h2><span class="n">01</span>The agentic opportunity</h2>
-    <div class="notes">
-      <p>A chatbot answers from what is typed into it. An agent has two things a chatbot does not: <strong>prior context</strong> about the person and the work, and <strong>access to tools</strong> such as mail, calendar and files, used only with approval.</p>
-      <p><strong>Context is the important part.</strong> Thin context produces generic answers. A deep, trusted, evolving context of mail, calendar, decisions and operating knowledge is what lets a model behave like someone who lives inside the work. The tools matter less than what the agent already knows.</p>
-      <p class="muted">The opportunity is not a better chatbot. It is a controlled context layer that any current model can use, inside whatever stack IT approves.</p>
-      <p class="gnote" style="margin-top:16px">In pictures. Hover to preview, click to open.</p>
-      <div class="gfx two">
-        <a class="gcard" href="./graphics/1-what-an-agent-is.html" data-lb="0" aria-label="Open graphic: A chat answers. An agent works.">
-          <img src="./graphics/thumb-1-what-an-agent-is.png" alt="A chat answers. An agent works." loading="lazy" width="1280" height="880">
-          <span class="cap">A chat answers. An agent works.<span>Graphic 1</span></span>
-        </a>
-        <a class="gcard" href="./graphics/2-what-makes-it-useful.html" data-lb="1" aria-label="Open graphic: Same brain. Context is the difference.">
-          <img src="./graphics/thumb-2-what-makes-it-useful.png" alt="Same brain. Context is the difference." loading="lazy" width="1280" height="880">
-          <span class="cap">Same brain. Context is the difference.<span>Graphic 2</span></span>
-        </a>
-      </div>
-    </div>
+  <div class="grid3">
+    <div class="card demo"><div class="k">Executive awareness</div><div class="q">"What should I focus on today?"</div><p>A short brief on what deserves attention, and why.</p><div class="m"><b>For Mario:</b> one morning brief across email, calendar and Teams.</div></div>
+    <div class="card demo"><div class="k">Strategic support</div><div class="q">"Help me think this through."</div><p>Weighs a real decision using what it already knows, plus research, with sources.</p><div class="m"><b>For Mario:</b> a thinking partner who knows the company's history.</div></div>
+    <div class="card demo"><div class="k">Execution with control</div><div class="q">"Take care of this for me."</div><p>Does the work, then stops at the approval gate before anything is sent.</p><div class="m"><b>For Mario:</b> replies, meeting prep and follow-ups, ready to approve.</div></div>
   </div>
+</div></section>
 
-  <div class="block" id="s2">
-    <h2><span class="n">02</span>A secure context layer, and the opportunity that creates</h2>
-    <div class="notes">
-      <p>The proposal: a context layer for Mario that is curated, human-readable and searchable, held inside a Milano Bro cloud account with tenant-scoped, narrow Microsoft 365 access, plus a retention, deletion and exit procedure. An assistant on top of it briefs priorities, supports decisions with context, drafts work, and acts only with clear approval.</p>
-      <div class="gfx one">
-        <a class="gcard" href="./graphics/3-hermes-for-mario.html" data-lb="2" aria-label="Open graphic: A chief of staff that never acts alone.">
-          <img src="./graphics/thumb-3-hermes-for-mario.png" alt="A chief of staff that never acts alone." loading="lazy" width="1280" height="880">
-          <span class="cap">A chief of staff that never acts alone.<span>Graphic 3</span></span>
-        </a>
-      </div>
-      <p><strong>Demo ≠ proposal.</strong> The harness shown in part 3 runs on Jason’s own development server with test data. It is not the proposed deployment. The proposed design, an AI model running inside a Milano Bro cloud account, has not been built, connected, or security-reviewed. It is on this page for discussion, not as something ready to switch on.</p>
-
-      <p style="margin-top:18px"><strong>Plain inventory for Romansas.</strong> <span class="muted">What exists today, what is working, and what is still only an idea, so each item can be checked independently. “Working” is used only where re-verified on the demo server.</span></p>
-      <div class="grid2">
-        <div class="node working"><div class="role">Working · test data</div><h3>Demo harness on Jason’s development server</h3><p>Chat channel, meeting → actions on a pasted transcript, approval gate, memory with receipts.</p></div>
-        <div class="node"><div class="role">Exists · needs configuration</div><h3>Operating hygiene</h3><p>Scheduled brief and closeout, monitoring, backups, log rotation.</p></div>
-        <div class="node"><div class="role">Not built</div><h3>Proposed Milano Bro deployment</h3><p>Model inside a Milano Bro cloud account; tenant-scoped, narrow Microsoft 365 access; context store; retention, deletion and exit procedure. Not built, connected, or security-reviewed.</p></div>
-        <div class="node"><div class="role">Only an idea</div><h3>Broader assistant</h3><p>Calendar, meetings and transcripts; Teams chats and channels; voice, per Mario’s scope.</p></div>
-      </div>
-      <p style="margin-top:14px"><strong>Does the proposed cloud deployment already work?</strong> No. It has not been built. The demonstrations use the existing harness on Jason’s development server.</p>
-
-      <p style="margin-top:18px"><strong>Scope.</strong> No other employees’ mailboxes. No SharePoint, OneDrive or broad document stores for now. Microsoft 365 access limited to what the pilot needs. Email first; calendar and meetings, Teams, and voice would each be a later phase with its own security implications for Romansas to review.</p>
-
-      <p style="margin-top:18px"><strong>Copilot, looked at together.</strong> Copilot is a reasonable default, and it is understandable that IT would prefer it: mail, calendar, Teams and meetings already live there. The narrower question is whether it covers this one personal pilot’s needs.</p>
-      <ul>
-        <li>Multilingual handling, at the level Mario works in day to day</li>
-        <li>The degree of personalization Mario has described</li>
-        <li>Where a separate, evolving context layer would add something Copilot does not, if anywhere</li>
-      </ul>
-      <p class="muted">To be looked at together, not argued to a conclusion. Which cloud account would host a model, if any, is IT’s call.</p>
-    </div>
+<section id="control"><div class="wrap">
+  <p class="sec-eyebrow">Built for IT control</p>
+  <h2 class="h2">Power for Mario. Control for IT.</h2>
+  <p class="lead">IT decides how far and how fast it goes. Every step can be reviewed and reversed.</p>
+  <div class="grid3">
+    <div class="card ctl"><div class="ic">1</div><h3>Mario's data only</h3><p>No other mailboxes. No SharePoint or OneDrive for now.</p></div>
+    <div class="card ctl"><div class="ic">2</div><h3>Access inside your tenant</h3><p>A single app registered in Milano Bro's Microsoft 365. IT grants, audits and revokes it.</p></div>
+    <div class="card ctl"><div class="ic">3</div><h3>Each phase approved</h3><p>Nothing new is connected until Romansas has reviewed it.</p></div>
+    <div class="card ctl"><div class="ic">4</div><h3>Company-controlled home</h3><p>The memory lives where IT chooses. Which cloud is IT's decision.</p></div>
+    <div class="card ctl"><div class="ic">5</div><h3>Nothing acts on its own</h3><p>Sending, booking and changes all wait for Mario's approval.</p></div>
+    <div class="card ctl"><div class="ic">6</div><h3>Support during the pilot</h3><p>Jason supports the pilot. Long-term support is agreed together afterwards.</p></div>
   </div>
+  <div class="note"><b>Copilot, looked at together.</b> Copilot is a reasonable default: mail, calendar, Teams and meetings already live there. The narrower question is whether it covers this one personal pilot: multilingual work at the level Mario works in day to day, the degree of personalisation Mario has described, and where a separate, evolving context layer adds something Copilot does not. To follow in writing: a data map (what is stored, what is only looked up, how it is deleted) and a side-by-side comparison with Copilot.</div>
+</div></section>
 
-  <div class="block" id="s3">
-    <h2><span class="n">03</span>An example of how Jason uses his agents</h2>
-    <div class="notes">
-      <p>The same pattern is already running for Jason, on Jason’s own development server. <strong>Hermes</strong> and <strong>Grok Bot</strong> are peer interfaces into one secure context layer, the Obsidian vault plus GBrain. Neither is primary or fallback. <strong>Grok Bot is the voice-facing interface</strong>: Jason uses it because its voice interface is the best available. This is the demonstration harness, not the proposed Milano Bro deployment.</p>
-      <a class="live" href="./agent-org-chart.html">
-        <div>
-          <div class="kicker">Live</div>
-          <h3>Agent org chart: Hermes ∥ Grok Bot → context layer</h3>
-          <p>Vault + GBrain at the base, Hermes and Grok Bot as peers (Grok Bot on voice), then the running desks, including health and homeopathy.</p>
-        </div>
-        <div class="go">Open the org chart →</div>
-      </a>
-
-      <div class="org" aria-label="Summary of Jason's live agent org chart">
-        <div class="node context">
-          <div class="role">Secure context layer</div>
-          <h3>Obsidian vault + GBrain</h3>
-          <p>Vault is the curated, human-readable truth. GBrain is the searchable archive over it. Agents read here; they do not keep a second brain.</p>
-        </div>
-        <div class="conn"></div>
-        <div class="conn-label">Peer interfaces</div>
-        <div class="conn"></div>
-        <div class="peers">
-          <div class="node peer hermes">
-            <div class="badge">Peer interface</div>
-            <h3>Hermes</h3>
-            <p>Agent runtime and mission-control harness. Equal peer to Grok Bot on the same context layer.</p>
-          </div>
-          <div class="node peer grok">
-            <div class="badge">Peer interface · voice</div>
-            <h3>Grok Bot</h3>
-            <p>Voice-facing interface on the same vault and GBrain. Chosen for the quality of its voice interface.</p>
-          </div>
-        </div>
-        <div class="conn"></div>
-        <div class="node chief">
-          <div class="role">Coordination</div>
-          <h3>Chief of staff</h3>
-          <p>Routes work across desks and holds the side-effect pause: drafts only until Jason approves. Hermes for Mario is the proposed analogue of this seat.</p>
-          <div class="status">live</div>
-        </div>
-        <div class="conn"></div>
-        <div class="bar"></div>
-        <div class="leaves">
-          <div class="leaf"><div class="stem"></div><div class="node">
-            <div class="role">Business</div><h3>Mimi’s Market</h3>
-            <p>Granola business: markets, kitchen, inventory, logistics.</p><div class="status">live</div>
-          </div></div>
-          <div class="leaf"><div class="stem"></div><div class="node">
-            <div class="role">Business</div><h3>Michelle Galoob Consulting</h3>
-            <p>MGC day-to-day: schedule, launches, client ops.</p><div class="status">live</div>
-          </div></div>
-          <div class="leaf"><div class="stem"></div><div class="node">
-            <div class="role">Business</div><h3>Jason / Work Different AI</h3>
-            <p>Consulting and brand: AI projects and clients.</p><div class="status">live</div>
-          </div></div>
-          <div class="leaf"><div class="stem"></div><div class="node">
-            <div class="role">Money</div><h3>Ledger</h3>
-            <p>Personal and business accounting: cash, cards, the full picture.</p><div class="status">live</div>
-          </div></div>
-          <div class="leaf"><div class="stem"></div><div class="node">
-            <div class="role">Health</div><h3>Health coach</h3>
-            <p>Jason’s labs, daily framework and health routines.</p><div class="status">live</div>
-          </div></div>
-          <div class="leaf"><div class="stem"></div><div class="node">
-            <div class="role">Health</div><h3>Homeopathic assistant</h3>
-            <p>Advisor grounded in the Esther Miszer / Esther Homeo message history.</p><div class="status">live</div>
-          </div></div>
-        </div>
-      </div>
-
-      <p style="margin-top:22px"><strong>Demonstrations, test data only.</strong> The existing assistant and its context layer, running on Jason’s development server. Nothing is connected to any Milano Bro mailbox, tenant, or file store during the call.</p>
-      <ol>
-        <li><strong>Executive awareness.</strong> “What should I focus on today?” answered from seeded context.</li>
-        <li><strong>Strategic support.</strong> “Help me think through this” with cited recall.</li>
-        <li><strong>Execution with control.</strong> Task draft → send attempt → the approval gate stops the action.</li>
-      </ol>
-
-      <div class="callout">
-        <strong>What we leave with</strong>
-        No decision is needed on this call. The useful result is a clear list from Romansas of the evidence and controls IT would need to see before approving anything, worked through in the order Romansas sets. From Mario: whether the demonstrations match the assistant Mario has in mind. Then a follow-up date.
-      </div>
-    </div>
+<section id="next" class="leave"><div class="wrap">
+  <p class="sec-eyebrow">Next steps</p>
+  <h2 class="h2">What we'd like to leave with today.</h2>
+  <div class="grid3">
+    <div class="card"><h3>From Mario</h3><ul><li>Does this match the assistant you have in mind?</li><li>The top three tasks you'd most like help with</li></ul></div>
+    <div class="card"><h3>From Romansas</h3><ul><li>The evidence and controls IT needs to see</li><li>The order to work through them</li></ul></div>
+    <div class="card"><h3>From Jason</h3><ul><li>Written data map</li><li>Copilot comparison</li><li>A follow-up date</li></ul></div>
   </div>
+</div></section>
 
-  <div class="foot">Source: email thread “AI assistant — opening the conversation” (Mario Testa, Romansas / IT, Jason · Sept 2026). Demo ≠ proposal. The demo assistant runs on Jason’s development server; the proposed Milano Bro deployment has not been built. No company data on this page. Org chart: <a href="./agent-org-chart.html">agent-org-chart.html</a>.</div>
-</div>
+<footer><div class="wrap">Prepared by Jason Galoob for Milano Bro · September 2026 · Demonstrations use Jason's own data; no Milano Bro data is connected. The proposed Milano Bro deployment has not been built.</div></footer>
 
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Graphic">
   <div class="frame">
-    <iframe id="lbf" title="Graphic" src="about:blank" loading="eager"></iframe>
+    <iframe id="lbf" title="Graphic" src="about:blank"></iframe>
     <button class="x" id="lbx" aria-label="Close">×</button>
     <button class="nv prev" id="lbp" aria-label="Previous graphic">‹</button>
     <button class="nv next" id="lbn" aria-label="Next graphic">›</button>
@@ -330,6 +283,10 @@ body.lb-lock{overflow:hidden}
   document.getElementById('lbn').addEventListener('click',function(){step(1)});
   lb.addEventListener('click',function(e){if(e.target===lb)close()});
   document.addEventListener('keydown',function(e){if(!lb.classList.contains('open'))return;if(e.key==='Escape')close();if(e.key==='ArrowRight')step(1);if(e.key==='ArrowLeft')step(-1)});
+  // nav highlight
+  var links=[].slice.call(document.querySelectorAll('#navlinks a')),secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+  function on(){var y=window.scrollY+90,c=-1;secs.forEach(function(s,i){if(s&&s.offsetTop<=y)c=i});links.forEach(function(a,i){a.classList.toggle('on',i===c)})}
+  window.addEventListener('scroll',on,{passive:true});on();
 })();
 </script>
 </body>
