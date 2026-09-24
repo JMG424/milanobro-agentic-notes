@@ -105,6 +105,33 @@ h1{font-family:var(--serif);font-size:38px;font-weight:600;letter-spacing:-.015e
 .grid2 .node .role{color:var(--mute)}
 .grid2 .node.working .role{color:var(--ok)}
 .foot{margin-top:56px;padding-top:16px;border-top:1px solid var(--line);font-size:12.5px;color:var(--mute);line-height:1.6}
+
+/* graphic thumbnails + lightbox */
+.gfx{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:18px 0 6px}
+.gfx.one{grid-template-columns:minmax(0,420px)}
+.gfx.two{grid-template-columns:repeat(2,minmax(0,420px))}
+.gcard{position:relative;display:block;text-decoration:none;color:inherit;border-radius:14px;overflow:hidden;background:#000;border:1px solid var(--line);box-shadow:0 1px 2px rgba(31,35,40,.05);transition:transform .35s cubic-bezier(.22,.61,.36,1),box-shadow .35s cubic-bezier(.22,.61,.36,1)}
+.gcard img{display:block;width:100%;height:auto;aspect-ratio:16/11;object-fit:cover;object-position:top;transition:transform .6s cubic-bezier(.22,.61,.36,1)}
+.gcard .cap{position:absolute;inset:auto 0 0 0;padding:26px 14px 12px;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.72));color:#fff;font-size:13px;font-weight:500;letter-spacing:-.005em;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.gcard .cap span{opacity:.7;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase}
+.gcard:hover,.gcard:focus-visible{transform:translateY(-4px) scale(1.025);box-shadow:0 18px 40px rgba(31,35,40,.18);z-index:1;outline:none}
+.gcard:hover img{transform:scale(1.04)}
+.gnote{font-size:12.5px;color:var(--mute);margin:0 0 6px}
+.lb{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(20,22,24,.55);-webkit-backdrop-filter:blur(18px) saturate(1.2);backdrop-filter:blur(18px) saturate(1.2);opacity:0;transition:opacity .35s ease}
+.lb.open{display:flex}
+.lb.show{opacity:1}
+.lb .frame{position:relative;width:min(1120px,100%);height:min(92vh,100%);background:#000;border-radius:18px;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,.45);transform:scale(.92) translateY(12px);transition:transform .45s cubic-bezier(.22,.61,.36,1)}
+.lb.show .frame{transform:none}
+.lb iframe{width:100%;height:100%;border:0;display:block;background:#000}
+.lb .x{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#fff;font-size:20px;line-height:1;cursor:pointer;display:grid;place-items:center;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.lb .x:hover{background:rgba(255,255,255,.26)}
+.lb .nv{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#fff;font-size:20px;cursor:pointer;display:grid;place-items:center}
+.lb .nv:hover{background:rgba(255,255,255,.26)}
+.lb .nv.prev{left:12px}.lb .nv.next{right:12px}
+.lb .open-new{position:absolute;bottom:12px;right:14px;font-size:12px;color:rgba(255,255,255,.75);text-decoration:none;background:rgba(255,255,255,.12);padding:6px 10px;border-radius:999px}
+body.lb-lock{overflow:hidden}
+@media (max-width:720px){.gfx,.gfx.two{grid-template-columns:1fr}.gfx.one{grid-template-columns:1fr}.lb{padding:10px}.lb .frame{border-radius:12px}.lb .nv{display:none}}
+@media (prefers-reduced-motion:reduce){.gcard,.gcard img,.lb,.lb .frame{transition:none}}
 @media(max-width:720px){
   h1{font-size:31px}
   .wrap{padding:40px 22px 72px}
@@ -145,6 +172,17 @@ h1{font-family:var(--serif);font-size:38px;font-weight:600;letter-spacing:-.015e
       <p>A chatbot answers from what is typed into it. An agent has two things a chatbot does not: <strong>prior context</strong> about the person and the work, and <strong>access to tools</strong> such as mail, calendar and files, used only with approval.</p>
       <p><strong>Context is the important part.</strong> Thin context produces generic answers. A deep, trusted, evolving context of mail, calendar, decisions and operating knowledge is what lets a model behave like someone who lives inside the work. The tools matter less than what the agent already knows.</p>
       <p class="muted">The opportunity is not a better chatbot. It is a controlled context layer that any current model can use, inside whatever stack IT approves.</p>
+      <p class="gnote" style="margin-top:16px">In pictures. Hover to preview, click to open.</p>
+      <div class="gfx two">
+        <a class="gcard" href="./graphics/1-what-an-agent-is.html" data-lb="0" aria-label="Open graphic: A chat answers. An agent works.">
+          <img src="./graphics/thumb-1-what-an-agent-is.png" alt="A chat answers. An agent works." loading="lazy" width="1280" height="880">
+          <span class="cap">A chat answers. An agent works.<span>Graphic 1</span></span>
+        </a>
+        <a class="gcard" href="./graphics/2-what-makes-it-useful.html" data-lb="1" aria-label="Open graphic: Same brain. Context is the difference.">
+          <img src="./graphics/thumb-2-what-makes-it-useful.png" alt="Same brain. Context is the difference." loading="lazy" width="1280" height="880">
+          <span class="cap">Same brain. Context is the difference.<span>Graphic 2</span></span>
+        </a>
+      </div>
     </div>
   </div>
 
@@ -152,6 +190,12 @@ h1{font-family:var(--serif);font-size:38px;font-weight:600;letter-spacing:-.015e
     <h2><span class="n">02</span>A secure context layer, and the opportunity that creates</h2>
     <div class="notes">
       <p>The proposal: a context layer for Mario that is curated, human-readable and searchable, held inside a Milano Bro cloud account with tenant-scoped, narrow Microsoft 365 access, plus a retention, deletion and exit procedure. An assistant on top of it briefs priorities, supports decisions with context, drafts work, and acts only with clear approval.</p>
+      <div class="gfx one">
+        <a class="gcard" href="./graphics/3-hermes-for-mario.html" data-lb="2" aria-label="Open graphic: A chief of staff that never acts alone.">
+          <img src="./graphics/thumb-3-hermes-for-mario.png" alt="A chief of staff that never acts alone." loading="lazy" width="1280" height="880">
+          <span class="cap">A chief of staff that never acts alone.<span>Graphic 3</span></span>
+        </a>
+      </div>
       <p><strong>Demo ≠ proposal.</strong> The harness shown in part 3 runs on Jason’s own development server with test data. It is not the proposed deployment. The proposed design, an AI model running inside a Milano Bro cloud account, has not been built, connected, or security-reviewed. It is on this page for discussion, not as something ready to switch on.</p>
 
       <p style="margin-top:18px"><strong>Plain inventory for Romansas.</strong> <span class="muted">What exists today, what is working, and what is still only an idea, so each item can be checked independently. “Working” is used only where re-verified on the demo server.</span></p>
@@ -262,5 +306,31 @@ h1{font-family:var(--serif);font-size:38px;font-weight:600;letter-spacing:-.015e
 
   <div class="foot">Source: email thread “AI assistant — opening the conversation” (Mario Testa, Romansas / IT, Jason · Sept 2026). Demo ≠ proposal. The demo assistant runs on Jason’s development server; the proposed Milano Bro deployment has not been built. No company data on this page. Org chart: <a href="./agent-org-chart.html">agent-org-chart.html</a>.</div>
 </div>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Graphic">
+  <div class="frame">
+    <iframe id="lbf" title="Graphic" src="about:blank" loading="eager"></iframe>
+    <button class="x" id="lbx" aria-label="Close">×</button>
+    <button class="nv prev" id="lbp" aria-label="Previous graphic">‹</button>
+    <button class="nv next" id="lbn" aria-label="Next graphic">›</button>
+    <a class="open-new" id="lbo" href="#" target="_blank" rel="noopener">Open full page ↗</a>
+  </div>
+</div>
+<script>
+(function(){
+  var cards=[].slice.call(document.querySelectorAll('.gcard'));
+  var urls=cards.map(function(c){return c.getAttribute('href')});
+  var lb=document.getElementById('lb'),f=document.getElementById('lbf'),o=document.getElementById('lbo'),cur=0;
+  function open(i){cur=i;f.src=urls[i];o.href=urls[i];lb.classList.add('open');document.body.classList.add('lb-lock');requestAnimationFrame(function(){requestAnimationFrame(function(){lb.classList.add('show')})});document.getElementById('lbx').focus()}
+  function close(){lb.classList.remove('show');document.body.classList.remove('lb-lock');setTimeout(function(){lb.classList.remove('open');f.src='about:blank'},350)}
+  function step(d){open((cur+d+urls.length)%urls.length)}
+  cards.forEach(function(c,i){c.addEventListener('click',function(e){if(e.metaKey||e.ctrlKey||e.shiftKey)return;e.preventDefault();open(i)})});
+  document.getElementById('lbx').addEventListener('click',close);
+  document.getElementById('lbp').addEventListener('click',function(){step(-1)});
+  document.getElementById('lbn').addEventListener('click',function(){step(1)});
+  lb.addEventListener('click',function(e){if(e.target===lb)close()});
+  document.addEventListener('keydown',function(e){if(!lb.classList.contains('open'))return;if(e.key==='Escape')close();if(e.key==='ArrowRight')step(1);if(e.key==='ArrowLeft')step(-1)});
+})();
+</script>
 </body>
 </html>

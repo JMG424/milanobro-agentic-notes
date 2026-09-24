@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>What an agent is — Milano Bro</title>
+<link rel="stylesheet" href="./shared.css" />
+<style>
+.stage{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+/* chat side */
+.chatcard{display:flex;flex-direction:column;gap:18px}
+.phone{background:var(--bg);border-radius:18px;padding:16px;display:grid;gap:10px;min-height:250px;align-content:start;box-shadow:inset 0 0 0 1px var(--line)}
+.bub{max-width:82%;padding:10px 14px;border-radius:18px;font-size:15.5px;line-height:1.4;opacity:0;transform:translateY(8px) scale(.98);animation:pop .5s var(--ease) forwards}
+.bub.me{background:var(--blue);color:#fff;justify-self:end;border-bottom-right-radius:6px}
+.bub.ai{background:var(--bg2);color:var(--ink);border-bottom-left-radius:6px}
+.bub:nth-child(1){animation-delay:.6s}.bub:nth-child(2){animation-delay:1.3s}.bub:nth-child(3){animation-delay:2.1s}.bub:nth-child(4){animation-delay:2.8s}
+@keyframes pop{to{opacity:1;transform:none}}
+.forget{margin-top:auto;text-align:center;color:var(--mute);font-size:14px;opacity:0;animation:fade .8s var(--ease) 3.8s forwards}
+@keyframes fade{to{opacity:1}}
+.phone.anim-forget .bub{animation:pop .5s var(--ease) forwards,dim 1.2s var(--ease) 4.2s forwards}
+@keyframes dim{to{opacity:.45}}
+/* agent side */
+.agentcard{outline:2px solid var(--blue);outline-offset:-2px}
+.harness{position:relative;background:var(--bg);border-radius:18px;padding:18px;box-shadow:inset 0 0 0 1px var(--line);display:grid;gap:12px}
+.core{margin:0 auto;background:linear-gradient(135deg,var(--blue),#5ac8fa);color:#fff;border-radius:16px;padding:14px 22px;text-align:center;box-shadow:0 8px 24px rgba(0,113,227,.25);opacity:0;transform:scale(.9);animation:core .6s var(--ease) .5s forwards}
+.core b{display:block;font-size:19px;font-weight:600}
+.core span{font-size:13px;opacity:.9}
+@keyframes core{to{opacity:1;transform:none}}
+.parts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.part{background:var(--bg2);border-radius:14px;padding:12px 14px;opacity:0;transform:translateY(10px);animation:up .55s var(--ease) forwards}
+.part:nth-child(1){animation-delay:1.0s}.part:nth-child(2){animation-delay:1.3s}.part:nth-child(3){animation-delay:1.6s}.part:nth-child(4){animation-delay:1.9s}
+.part b{display:block;font-size:15.5px;font-weight:600}
+.part span{font-size:13.5px;color:var(--mute)}
+.part.guard{background:var(--amber-soft)}
+.part.guard b{color:var(--amber)}
+.pts{list-style:none;display:grid;gap:8px;font-size:15.5px}
+.pts li{display:grid;grid-template-columns:22px 1fr;gap:6px;align-items:start}
+.chatcard .pts li::before{content:"–";color:var(--mute);font-weight:600;text-align:center}
+.agentcard .pts li::before{content:"✓";color:var(--blue);font-weight:700;text-align:center}
+@media (max-width:760px){.stage{grid-template-columns:1fr}}
+@media (max-width:460px){.parts{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav"><a href="../">← Session page</a><span>1 of 3</span><a href="./2-what-makes-it-useful.html">Next →</a></nav>
+
+  <p class="eyebrow up">What an agent is</p>
+  <h1 class="up d1">A chat answers.<br>An agent works.</h1>
+  <p class="lead up d2">Same AI inside. What's different is everything built around it: a job, a memory, tools, and rules.</p>
+
+  <div class="stage">
+    <section class="card chatcard up d3">
+      <div><span class="chip">A chat window</span><h2>A brilliant stranger, every morning</h2><p class="sub">Powerful answers. No continuity.</p></div>
+      <div class="phone anim-forget">
+        <div class="bub me">Summarise this email.</div>
+        <div class="bub ai">Here's a summary…</div>
+        <div class="bub me">Now draft a reply.</div>
+        <div class="bub ai">Sure. Who is this to?</div>
+        <p class="forget">Close the window. It forgets everything.</p>
+      </div>
+      <ul class="pts"><li>Answers when asked</li><li>Starts from zero each time</li><li>You carry the context</li><li>You do the follow-up</li></ul>
+    </section>
+
+    <section class="card agentcard up d4">
+      <div><span class="chip blue">An agent</span><h2>A digital employee</h2><p class="sub">A harness around the model, with a job description.</p></div>
+      <div class="harness">
+        <div class="core"><b>AI model</b><span>Claude, Grok, whichever is best</span></div>
+        <div class="parts">
+          <div class="part"><b>A job</b><span>Chief of staff for Mario</span></div>
+          <div class="part"><b>Memory</b><span>People, decisions, history</span></div>
+          <div class="part"><b>Tools</b><span>Mail, calendar, drafts</span></div>
+          <div class="part guard"><b>Guardrails</b><span>Nothing sent without a yes</span></div>
+        </div>
+      </div>
+      <ul class="pts"><li>Knows who it works for</li><li>Remembers day to day</li><li>Does the work, then asks</li><li>Swap the model, keep the employee</li></ul>
+    </section>
+  </div>
+
+  <p class="tagline up d6">A chat window is not a job description.<small>Not a chatbot glued to email. A thin control layer so the model can work one lane of the business.</small></p>
+  <div class="foot"><span>Milano Bro · working session · 24 Sept 2026</span><span>Illustrative. Demos run on Jason's own data; no Milano Bro data is connected.</span></div>
+</div>
+</body>
+</html>

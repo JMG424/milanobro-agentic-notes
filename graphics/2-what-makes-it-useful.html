@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>What makes it useful — Milano Bro</title>
+<link rel="stylesheet" href="./shared.css" />
+<style>
+.q{text-align:center;font-size:clamp(18px,2.4vw,22px);font-weight:600;background:var(--bg2);border-radius:999px;padding:14px 24px;margin-bottom:16px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.ans{display:flex;flex-direction:column;gap:14px}
+.ans.deep{outline:2px solid var(--blue);outline-offset:-2px}
+.bub{background:var(--bg);border-radius:18px;padding:16px 18px;font-size:16px;line-height:1.45;box-shadow:inset 0 0 0 1px var(--line);opacity:0;transform:translateY(8px);animation:up .6s var(--ease) forwards}
+.thin .bub{animation-delay:.7s;color:var(--mute)}
+.deep .bub{animation-delay:1.1s}
+.deep .bub b{color:var(--blue)}
+.meter{margin-top:auto;display:flex;align-items:flex-end;gap:5px;height:70px}
+.meter i{flex:1;border-radius:5px 5px 2px 2px;background:var(--line);transform-origin:bottom;transform:scaleY(0);animation:bar .8s var(--ease) forwards}
+.deep .meter i{background:var(--blue)}
+.meter i:nth-child(1){animation-delay:1.3s}.meter i:nth-child(2){animation-delay:1.4s}.meter i:nth-child(3){animation-delay:1.5s}.meter i:nth-child(4){animation-delay:1.6s}.meter i:nth-child(5){animation-delay:1.7s}.meter i:nth-child(6){animation-delay:1.8s}.meter i:nth-child(7){animation-delay:1.9s}.meter i:nth-child(8){animation-delay:2.0s}
+@keyframes bar{to{transform:scaleY(1)}}
+.ml{font-size:13.5px;color:var(--mute)}
+/* growth */
+.grow{margin-top:20px}
+.rings{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;align-items:end;margin-top:8px}
+.r{text-align:center}
+.disc{margin:0 auto 12px;border-radius:50%;display:grid;place-items:center;font-weight:600;color:var(--blue);background:var(--blue-soft);transform:scale(.6);opacity:0;animation:disc .7s var(--ease) forwards}
+.r:nth-child(1) .disc{width:60px;height:60px;font-size:13px;animation-delay:2.2s}
+.r:nth-child(2) .disc{width:90px;height:90px;font-size:14px;animation-delay:2.45s}
+.r:nth-child(3) .disc{width:122px;height:122px;font-size:15px;animation-delay:2.7s}
+.r:nth-child(4) .disc{width:156px;height:156px;font-size:16px;animation-delay:2.95s;background:linear-gradient(135deg,var(--blue),#5ac8fa);color:#fff;box-shadow:0 10px 30px rgba(0,113,227,.28)}
+@keyframes disc{to{transform:none;opacity:1}}
+.r b{display:block;font-size:16px;font-weight:600}
+.r span{font-size:13.5px;color:var(--mute)}
+.boundary{margin-top:22px;display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;background:var(--bg);border-radius:16px;padding:14px 18px;box-shadow:inset 0 0 0 1.5px var(--amber)}
+.lock{width:42px;height:42px;border-radius:12px;background:var(--amber);display:grid;place-items:center}
+.lock svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.boundary p{font-size:15.5px}.boundary b{font-weight:600}
+@media (max-width:760px){.two{grid-template-columns:1fr}.rings{grid-template-columns:1fr 1fr}}
+@media (max-width:460px){.boundary{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav"><a href="./1-what-an-agent-is.html">← Previous</a><a href="../">Session page</a><a href="./3-hermes-for-mario.html">Next →</a></nav>
+
+  <p class="eyebrow up">What makes it useful</p>
+  <h1 class="up d1">Same brain.<br>Context is the difference.</h1>
+  <p class="lead up d2">Ask a smart stranger and a trusted colleague the same question. The colleague wins, because they know your business.</p>
+
+  <div class="q up d3">“Should we take the Rossi order at that price?”</div>
+  <div class="two">
+    <section class="card ans thin up d4">
+      <div><span class="chip">Thin context</span><h2>A generic answer</h2></div>
+      <div class="bub">“It depends on your margins, capacity and strategic priorities. Consider the following factors…”</div>
+      <div class="meter" aria-hidden="true"><i style="height:28%"></i><i style="height:22%"></i><i style="height:16%"></i><i style="height:12%"></i><i style="height:10%"></i><i style="height:9%"></i><i style="height:8%"></i><i style="height:8%"></i></div>
+      <p class="ml">Knows nothing about you. Sounds clever, helps little.</p>
+    </section>
+    <section class="card ans deep up d5">
+      <div><span class="chip blue">Trusted depth</span><h2>Judgment from inside</h2></div>
+      <div class="bub">“<b>Probably yes.</b> You turned down a similar Rossi order in May over payment terms, not price. They've paid on time since. Capacity is tight in October; propose November delivery.”</div>
+      <div class="meter" aria-hidden="true"><i style="height:36%"></i><i style="height:48%"></i><i style="height:58%"></i><i style="height:68%"></i><i style="height:78%"></i><i style="height:88%"></i><i style="height:95%"></i><i style="height:100%"></i></div>
+      <p class="ml">Mail, decisions, history. Someone who lives inside the work.</p>
+    </section>
+  </div>
+
+  <section class="card grow up d6">
+    <h2>The context layer grows. So does the value.</h2>
+    <div class="rings">
+      <div class="r"><div class="disc">Wk 1</div><b>Your inbox</b><span>What's urgent, who's waiting</span></div>
+      <div class="r"><div class="disc">Mo 3</div><b>Your people</b><span>Who matters, what was agreed</span></div>
+      <div class="r"><div class="disc">Yr 1</div><b>Your decisions</b><span>What you chose, and why</span></div>
+      <div class="r"><div class="disc">Ongoing</div><b>How you run it</b><span>A private memory any model can use</span></div>
+    </div>
+    <div class="boundary">
+      <div class="lock" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+      <p><b>Stays inside your boundary.</b> Mail, docs and decisions live in an account Milano Bro controls. Change AI models freely; the memory stays yours.</p>
+    </div>
+  </section>
+
+  <p class="tagline up d7">Own the context, not just the prompts.<small>That is the real leverage.</small></p>
+  <div class="foot"><span>Milano Bro · working session · 24 Sept 2026</span><span>Illustrative example. No Milano Bro data is connected.</span></div>
+</div>
+</body>
+</html>
