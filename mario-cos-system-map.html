@@ -56,6 +56,16 @@ h1{font:500 55px/1.04 var(--serif);letter-spacing:-.028em;margin:16px 0 16px;max
 .connector b{display:block;font-size:14px;margin-bottom:5px}.connector small{color:var(--muted);font-size:12px;line-height:1.4}
 .connector .state{display:inline-block;margin-top:9px;font:10px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--green)}
 .guardrail{margin-top:16px;border-left:4px solid var(--blue);padding:13px 15px;background:#eff4f8;color:#4c5963;font-size:13px;line-height:1.55}
+.interviews{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.interview{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:24px;position:relative;overflow:hidden}
+.interview:before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--blue)}
+.interview.mail:before{background:var(--amber)}
+.interview-head{display:flex;justify-content:space-between;gap:16px;align-items:start}
+.interview h3{font:500 27px/1.12 var(--serif);margin:0}.interview p{font-size:14px;line-height:1.55;color:var(--muted);margin:12px 0 0}
+.badge{font:10px/1.2 var(--mono);letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:6px 9px;white-space:nowrap}
+.badge.built{color:#326f55;background:var(--green-bg);border:1px solid #b9d8c9}.badge.planned{color:#87551e;background:var(--amber-bg);border:1px solid #e4c89f}
+.interview ul{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:8px}.interview li{font-size:13px;line-height:1.45;color:#505861;padding-left:18px;position:relative}.interview li:before{content:"→";position:absolute;left:0;color:var(--blue)}
+.promotion{margin-top:14px;border:1px dashed #aeb7bd;border-radius:13px;padding:16px;text-align:center;font-size:13px;line-height:1.5;color:#53616b;background:#f4f7f8}.promotion b{color:var(--ink)}
 .gate{display:grid;grid-template-columns:150px 1fr;gap:22px;align-items:center;border:1.5px solid var(--red);border-radius:18px;background:#fbf4f1;padding:24px 27px}
 .stop{width:104px;height:104px;display:grid;place-items:center;margin:auto;background:var(--red);color:white;font:700 13px var(--mono);letter-spacing:.12em;clip-path:polygon(30% 0,70% 0,100% 30%,100% 70%,70% 100%,30% 100%,0 70%,0 30%)}
 .gate h2{font:500 31px/1.1 var(--serif);margin:0 0 8px;color:#763d37}.gate p{font-size:15px;line-height:1.55;color:#6d5652;margin:0}.gate b{color:#643a35}
@@ -74,7 +84,7 @@ footer{margin-top:27px;padding-top:18px;border-top:1px solid var(--line);display
 @media(max-width:850px){
   body{padding:32px 0 48px}.page{width:min(100% - 28px,680px)}h1{font-size:40px}.deck{font-size:17px}
   .flow{grid-template-columns:1fr}.arrow{height:54px}.arrow:before{left:50%;right:auto;top:5px;bottom:12px;width:1px;height:auto}.arrow:after{right:auto;left:calc(50% - 4px);top:auto;bottom:9px;transform:rotate(135deg)}.arrow span{display:none}
-  .stack,.status-row{grid-template-columns:1fr}.layer{grid-template-columns:36px 1fr}.layer span:last-child{grid-column:2}.ops{grid-template-columns:1fr 1fr}.gate,.bottomline{grid-template-columns:1fr}.stop{width:72px;height:72px}.connector-list{grid-template-columns:1fr}footer{flex-direction:column}
+  .stack,.status-row,.interviews{grid-template-columns:1fr}.layer{grid-template-columns:36px 1fr}.layer span:last-child{grid-column:2}.ops{grid-template-columns:1fr 1fr}.gate,.bottomline{grid-template-columns:1fr}.stop{width:72px;height:72px}.connector-list{grid-template-columns:1fr}footer{flex-direction:column}
 }
 </style>
 </head>
@@ -139,7 +149,24 @@ footer{margin-top:27px;padding-top:18px;border-top:1px solid var(--line);display
 </section>
 
 <section class="section">
-  <div class="section-label"><span class="num">03</span> The control point</div>
+  <div class="section-label"><span class="num">03</span> Context interviews</div>
+  <div class="interviews">
+    <article class="interview">
+      <div class="interview-head"><div><div class="kicker">Spoken onboarding</div><h3>AgentPhone</h3></div><span class="badge built">Interviewer built</span></div>
+      <p>A consent-first voice interviewer designed to learn Mario’s priorities, people, systems, delegation style, preferences, privacy boundaries and definition of pilot success.</p>
+      <ul><li>One question at a time</li><li>No credentials or restricted operational data</li><li>Phone number and outbound call remain approval-gated</li></ul>
+    </article>
+    <article class="interview mail">
+      <div class="interview-head"><div><div class="kicker">Asynchronous onboarding</div><h3>AgentMail</h3></div><span class="badge planned">Staged next</span></div>
+      <p>A dedicated email interview lane for questions Mario would rather answer over time—without granting access to his normal inbox.</p>
+      <ul><li>Paced questions from a separate agent inbox</li><li>Mario replies when convenient</li><li>Not provisioned or connected yet</li></ul>
+    </article>
+  </div>
+  <div class="promotion"><b>Same memory gate for both:</b> raw answer → classify and summarize → Mario corrects and approves → only approved context is promoted into the Vault and GBrain.</div>
+</section>
+
+<section class="section">
+  <div class="section-label"><span class="num">04</span> The control point</div>
   <article class="gate">
     <div class="stop">APPROVAL</div>
     <div><h2>Nothing consequential goes out by itself.</h2><p>The installed policy is <b>draft and recommend first</b>. Sending, booking, changing, purchasing, delegating or publishing remains blocked until Mario explicitly approves the action.</p></div>
@@ -147,7 +174,7 @@ footer{margin-top:27px;padding-top:18px;border-top:1px solid var(--line);display
 </section>
 
 <section class="section">
-  <div class="section-label"><span class="num">04</span> Reliability underneath</div>
+  <div class="section-label"><span class="num">05</span> Reliability underneath</div>
   <div class="ops">
     <article class="op"><div class="icon">01</div><h4>Boot recovery</h4><p>Systemd starts the gateway at boot and restarts it after failure.</p></article>
     <article class="op"><div class="icon">02</div><h4>Forced-failure tested</h4><p>The gateway was deliberately stopped and recovered under a new process.</p></article>
@@ -157,10 +184,10 @@ footer{margin-top:27px;padding-top:18px;border-top:1px solid var(--line);display
 </section>
 
 <section class="section">
-  <div class="section-label"><span class="num">05</span> Honest status</div>
+  <div class="section-label"><span class="num">06</span> Honest status</div>
   <div class="status-row">
-    <article class="status-card on"><h3>Live and verified</h3><ul><li>Dedicated private AWS runtime</li><li>Mario Chief of Staff profile and workflows</li><li>Telegram text + voice-note interface</li><li>Governed Vault + local GBrain memory</li><li>Controlled Outlook, Calendar and Drive lanes</li><li>Self-heal, monitoring and rollback</li></ul></article>
-    <article class="status-card off"><h3>Deliberately not active</h3><ul><li>No autonomous sends or calendar changes</li><li>No broad mailbox or file indexing</li><li>No recurring morning/evening automation</li><li>No regulated production-data approval</li><li>No completed AgentPhone interview</li><li>Mario’s real-world adoption remains unverified</li></ul></article>
+    <article class="status-card on"><h3>Live and verified</h3><ul><li>Dedicated private AWS runtime</li><li>Mario Chief of Staff profile and workflows</li><li>Telegram text + voice-note interface</li><li>Governed Vault + local GBrain memory</li><li>AgentPhone interviewer profile built</li><li>Controlled Outlook, Calendar and Drive lanes</li><li>Self-heal, monitoring and rollback</li></ul></article>
+    <article class="status-card off"><h3>Deliberately not active</h3><ul><li>No autonomous sends or calendar changes</li><li>No broad mailbox or file indexing</li><li>No recurring morning/evening automation</li><li>No regulated production-data approval</li><li>No completed AgentPhone interview</li><li>AgentMail interview inbox not provisioned</li><li>Mario’s real-world adoption remains unverified</li></ul></article>
   </div>
   <div class="bottomline"><div class="label">Best next move</div><p>Run one controlled onboarding session, choose one low-risk real workflow, let Mario correct the result, and promote only what he approves.</p></div>
 </section>
