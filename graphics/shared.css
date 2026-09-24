@@ -1,9 +1,9 @@
 /* Shared look for the three session graphics */
 :root{
-  color-scheme:dark;
-  --bg:#000000; --bg2:#1c1c1e; --ink:#f5f5f7; --mute:#a1a1a6; --line:#2c2c2e;
-  --blue:#2997ff; --blue-soft:#0e2a48; --green:#30d158; --green-soft:#0f2e1c;
-  --amber:#ffd60a; --amber-soft:#332b0a; --red:#ff453a; --red-soft:#3a1412;
+  color-scheme:light;
+  --bg:#ffffff; --bg2:#f5f5f7; --ink:#1d1d1f; --mute:#6e6e73; --line:#e5e5ea;
+  --blue:#0071e3; --blue-soft:#eaf3ff; --green:#1d9a5b; --green-soft:#e6f6ee;
+  --amber:#b7791f; --amber-soft:#fff4e0; --red:#c93b32; --red-soft:#fdeceb;
   --font:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Inter",Helvetica,Arial,sans-serif;
   --ease:cubic-bezier(.22,.61,.36,1);
   --radius:22px;
@@ -22,6 +22,7 @@ p{margin:0}
 h1{font-size:clamp(34px,5.4vw,58px);margin-bottom:14px;max-width:20ch}
 .lead{font-size:clamp(19px,2.2vw,23px);color:var(--mute);max-width:46ch;line-height:1.4;margin-bottom:44px}
 .card{background:var(--bg2);border-radius:var(--radius);padding:28px}
+.card.chatcard,.card.ans,.card.phone,.card.arch,.card.grow{box-shadow:0 1px 2px rgba(0,0,0,.04)}
 .card h2{font-size:24px;margin-bottom:6px}
 .card .sub{color:var(--mute);font-size:16px}
 .chip{display:inline-block;font-size:13px;font-weight:600;letter-spacing:.02em;text-transform:uppercase;padding:4px 10px;border-radius:999px;background:var(--bg);color:var(--mute);margin-bottom:14px}
