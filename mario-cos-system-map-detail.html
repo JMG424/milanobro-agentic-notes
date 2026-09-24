@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mario’s Private AI Chief of Staff — What We Built</title>
+<style>
+:root{
+  --paper:#f7f4ee; --card:#fffdf9; --ink:#202326; --muted:#68707a;
+  --line:#ddd7cc; --blue:#356c9d; --green:#3d8a69; --green-bg:#edf6f1;
+  --amber:#a66b28; --amber-bg:#fbf2e5; --red:#9b4f46; --dark:#202426;
+  --serif:Georgia,"Times New Roman",serif;
+  --sans:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans)}
+body{padding:62px 0 74px}
+.page{width:min(1120px,calc(100% - 56px));margin:0 auto}
+.meta{font:12px/1.5 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+header{padding-bottom:34px;border-bottom:1px solid var(--line)}
+h1{font:500 55px/1.04 var(--serif);letter-spacing:-.028em;margin:16px 0 16px;max-width:840px}
+.deck{font-size:20px;line-height:1.55;color:var(--muted);max-width:880px;margin:0}
+.summary{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+.pill{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.6);padding:9px 13px;font-size:13px;color:#4e5660}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 3px rgba(61,138,105,.12)}
+.section{margin-top:46px}
+.section-label{display:flex;align-items:center;gap:12px;font:700 12px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:18px}
+.section-label .num{color:var(--blue)}
+.section-label:after{content:"";height:1px;flex:1;background:var(--line)}
+.flow{display:grid;grid-template-columns:1fr 64px 1.35fr 64px 1fr;align-items:stretch}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:25px;position:relative;min-height:230px}
+.card.live{border-color:#b8d8c8;box-shadow:inset 0 4px 0 var(--green)}
+.card h2,.card h3{font-family:var(--serif);font-weight:500;letter-spacing:-.01em;margin:0}
+.card h2{font-size:30px;line-height:1.1;margin-top:11px}
+.card h3{font-size:23px;line-height:1.15}
+.card p{font-size:15px;line-height:1.55;color:var(--muted);margin:12px 0 0}
+.kicker{font:11px/1.4 var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--blue)}
+.tags{display:flex;gap:7px;flex-wrap:wrap;margin-top:18px}
+.tag{font:10px/1.2 var(--mono);letter-spacing:.04em;text-transform:uppercase;border:1px solid var(--line);border-radius:999px;padding:6px 9px;color:#59616a;background:#fbfaf7}
+.arrow{display:grid;place-items:center;color:var(--muted);font:11px var(--mono);position:relative}
+.arrow:before{content:"";position:absolute;left:7px;right:12px;top:50%;height:1px;background:#aeb2b3}
+.arrow:after{content:"";position:absolute;right:8px;top:calc(50% - 4px);width:8px;height:8px;border-top:1px solid #aeb2b3;border-right:1px solid #aeb2b3;transform:rotate(45deg)}
+.arrow span{position:absolute;top:calc(50% + 13px);font-size:9px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+.runtime{background:var(--dark);color:#f7f3eb;border-color:var(--dark)}
+.runtime .kicker{color:#9ec4e6}.runtime p{color:#c6c9c7}.runtime .tag{background:#2a2f31;color:#e2e4e1;border-color:#4c5152}
+.stack{display:grid;grid-template-columns:1.1fr 1fr;gap:16px;margin-top:16px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:24px}
+.panel h3{font:500 25px/1.15 var(--serif);margin:0 0 14px}
+.layers{display:grid;gap:9px}
+.layer{display:grid;grid-template-columns:44px 150px 1fr;gap:12px;align-items:center;border:1px solid var(--line);border-radius:10px;background:#fff;padding:13px 15px}
+.layer .id{font:11px var(--mono);color:var(--blue)}
+.layer strong{font-size:14px}.layer span:last-child{font-size:13px;color:var(--muted)}
+.connector-list{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.connector{border:1px solid var(--line);border-radius:11px;padding:14px;background:#fff}
+.connector b{display:block;font-size:14px;margin-bottom:5px}.connector small{color:var(--muted);font-size:12px;line-height:1.4}
+.connector .state{display:inline-block;margin-top:9px;font:10px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--green)}
+.guardrail{margin-top:16px;border-left:4px solid var(--blue);padding:13px 15px;background:#eff4f8;color:#4c5963;font-size:13px;line-height:1.55}
+.interviews{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.interview{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:24px;position:relative;overflow:hidden}
+.interview:before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--blue)}
+.interview.mail:before{background:var(--amber)}
+.interview-head{display:flex;justify-content:space-between;gap:16px;align-items:start}
+.interview h3{font:500 27px/1.12 var(--serif);margin:0}.interview p{font-size:14px;line-height:1.55;color:var(--muted);margin:12px 0 0}
+.badge{font:10px/1.2 var(--mono);letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:6px 9px;white-space:nowrap}
+.badge.built{color:#326f55;background:var(--green-bg);border:1px solid #b9d8c9}.badge.planned{color:#87551e;background:var(--amber-bg);border:1px solid #e4c89f}
+.interview ul{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:8px}.interview li{font-size:13px;line-height:1.45;color:#505861;padding-left:18px;position:relative}.interview li:before{content:"→";position:absolute;left:0;color:var(--blue)}
+.promotion{margin-top:14px;border:1px dashed #aeb7bd;border-radius:13px;padding:16px;text-align:center;font-size:13px;line-height:1.5;color:#53616b;background:#f4f7f8}.promotion b{color:var(--ink)}
+.gate{display:grid;grid-template-columns:150px 1fr;gap:22px;align-items:center;border:1.5px solid var(--red);border-radius:18px;background:#fbf4f1;padding:24px 27px}
+.stop{width:104px;height:104px;display:grid;place-items:center;margin:auto;background:var(--red);color:white;font:700 13px var(--mono);letter-spacing:.12em;clip-path:polygon(30% 0,70% 0,100% 30%,100% 70%,70% 100%,30% 100%,0 70%,0 30%)}
+.gate h2{font:500 31px/1.1 var(--serif);margin:0 0 8px;color:#763d37}.gate p{font-size:15px;line-height:1.55;color:#6d5652;margin:0}.gate b{color:#643a35}
+.ops{display:grid;grid-template-columns:repeat(4,1fr);gap:11px}
+.op{border:1px solid var(--line);border-radius:13px;background:var(--card);padding:18px;min-height:126px}
+.op .icon{font:700 20px var(--mono);color:var(--blue)}
+.op h4{font-size:14px;margin:13px 0 5px}.op p{font-size:12px;line-height:1.45;color:var(--muted);margin:0}
+.status-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.status-card{border-radius:17px;padding:23px;border:1px solid}
+.status-card h3{font:500 25px var(--serif);margin:0 0 13px}.status-card ul{margin:0;padding:0;list-style:none;display:grid;gap:10px}.status-card li{font-size:14px;line-height:1.45;padding-left:22px;position:relative}.status-card li:before{position:absolute;left:0;font-weight:800}
+.status-card.on{background:var(--green-bg);border-color:#b9d8c9}.status-card.on h3{color:#326f55}.status-card.on li:before{content:"✓";color:var(--green)}
+.status-card.off{background:var(--amber-bg);border-color:#e4c89f}.status-card.off h3{color:#87551e}.status-card.off li:before{content:"—";color:var(--amber)}
+.bottomline{margin-top:18px;background:var(--dark);color:#f6f2e9;border-radius:17px;padding:24px 27px;display:grid;grid-template-columns:170px 1fr;gap:18px;align-items:center}
+.bottomline .label{font:11px var(--mono);letter-spacing:.11em;text-transform:uppercase;color:#9ec4e6}.bottomline p{margin:0;font:500 24px/1.35 var(--serif)}
+footer{margin-top:27px;padding-top:18px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:20px;font:10px/1.5 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+@media(max-width:850px){
+  body{padding:32px 0 48px}.page{width:min(100% - 28px,680px)}h1{font-size:40px}.deck{font-size:17px}
+  .flow{grid-template-columns:1fr}.arrow{height:54px}.arrow:before{left:50%;right:auto;top:5px;bottom:12px;width:1px;height:auto}.arrow:after{right:auto;left:calc(50% - 4px);top:auto;bottom:9px;transform:rotate(135deg)}.arrow span{display:none}
+  .stack,.status-row,.interviews{grid-template-columns:1fr}.layer{grid-template-columns:36px 1fr}.layer span:last-child{grid-column:2}.ops{grid-template-columns:1fr 1fr}.gate,.bottomline{grid-template-columns:1fr}.stop{width:72px;height:72px}.connector-list{grid-template-columns:1fr}footer{flex-direction:column}
+}
+</style>
+</head>
+<body>
+<main class="page">
+<header>
+  <div class="meta">Mario COS · build map · 23 September 2026 · sanitized client view</div>
+  <h1>What we built for Mario</h1>
+  <p class="deck">One private AI Chief of Staff—not a fleet of bots. Mario speaks through one controlled front door; the system turns approved context into executive work and keeps consequential actions behind a human decision.</p>
+  <div class="summary"><span class="pill"><span class="dot"></span> Core system live</span><span class="pill">Isolated AWS environment</span><span class="pill">Read-first · approval-gated</span></div>
+</header>
+
+<section class="section">
+  <div class="section-label"><span class="num">01</span> The working loop</div>
+  <div class="flow">
+    <article class="card live">
+      <div class="kicker">Mario’s front door</div>
+      <h2>Private Telegram</h2>
+      <p>Mario can send text or voice notes to <b>@MarioCOS_Bot</b>. Unknown users are blocked by pairing and allowlist controls.</p>
+      <div class="tags"><span class="tag">Text</span><span class="tag">Voice notes</span><span class="tag">Private access</span></div>
+    </article>
+    <div class="arrow"><span>approved input</span></div>
+    <article class="card runtime">
+      <div class="kicker">The private runtime</div>
+      <h2>Hermes Chief of Staff</h2>
+      <p>A dedicated AWS Lightsail server runs Mario’s isolated, non-sudo Hermes profile. It briefs, structures, drafts, tracks open loops and preserves source receipts.</p>
+      <div class="tags"><span class="tag">Morning brief</span><span class="tag">Meeting → actions</span><span class="tag">Draft follow-up</span><span class="tag">EOD closeout</span></div>
+    </article>
+    <div class="arrow"><span>draft + evidence</span></div>
+    <article class="card">
+      <div class="kicker">Mario decides</div>
+      <h2>Useful output</h2>
+      <p>Priorities, decisions, owners, due dates, handoffs and drafts—clearly separated from assumptions and unresolved details.</p>
+      <div class="tags"><span class="tag">Brief</span><span class="tag">Open loops</span><span class="tag">Draft only</span></div>
+    </article>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-label"><span class="num">02</span> Context without indiscriminate ingestion</div>
+  <div class="stack">
+    <article class="panel">
+      <h3>Governed memory</h3>
+      <div class="layers">
+        <div class="layer"><span class="id">L1</span><strong>Session</strong><span>The current conversation.</span></div>
+        <div class="layer"><span class="id">L2</span><strong>Durable memory</strong><span>Confirmed facts, rules and preferences.</span></div>
+        <div class="layer"><span class="id">L3</span><strong>GBrain</strong><span>Local retrieval across approved context.</span></div>
+        <div class="layer"><span class="id">L4</span><strong>Mario Vault</strong><span>Human-readable notes with source receipts.</span></div>
+      </div>
+    </article>
+    <article class="panel">
+      <h3>Narrow context lanes</h3>
+      <div class="connector-list">
+        <div class="connector"><b>Microsoft Outlook</b><small>Connected for Mario; read-first and purpose-specific.</small><span class="state">Connected</span></div>
+        <div class="connector"><b>Google Calendar</b><small>Selected calendar reads—not broad ingestion.</small><span class="state">Connected</span></div>
+        <div class="connector"><b>Google Drive</b><small>Selected-file access only.</small><span class="state">Connected</span></div>
+        <div class="connector"><b>Local voice processing</b><small>Telegram delivers the note; transcription runs on Mario’s server.</small><span class="state">Installed</span></div>
+      </div>
+      <div class="guardrail"><b>Boundary:</b> no whole-mailbox scan, no whole-Drive index, and no regulated or restricted production data approved.</div>
+    </article>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-label"><span class="num">03</span> Context interviews</div>
+  <div class="interviews">
+    <article class="interview">
+      <div class="interview-head"><div><div class="kicker">Spoken onboarding</div><h3>AgentPhone</h3></div><span class="badge built">Interviewer built</span></div>
+      <p>A consent-first voice interviewer designed to learn Mario’s priorities, people, systems, delegation style, preferences, privacy boundaries and definition of pilot success.</p>
+      <ul><li>One question at a time</li><li>No credentials or restricted operational data</li><li>Phone number and outbound call remain approval-gated</li></ul>
+    </article>
+    <article class="interview mail">
+      <div class="interview-head"><div><div class="kicker">Asynchronous onboarding</div><h3>AgentMail</h3></div><span class="badge planned">Staged next</span></div>
+      <p>A dedicated email interview lane for questions Mario would rather answer over time—without granting access to his normal inbox.</p>
+      <ul><li>Paced questions from a separate agent inbox</li><li>Mario replies when convenient</li><li>Not provisioned or connected yet</li></ul>
+    </article>
+  </div>
+  <div class="promotion"><b>Same memory gate for both:</b> raw answer → classify and summarize → Mario corrects and approves → only approved context is promoted into the Vault and GBrain.</div>
+</section>
+
+<section class="section">
+  <div class="section-label"><span class="num">04</span> The control point</div>
+  <article class="gate">
+    <div class="stop">APPROVAL</div>
+    <div><h2>Nothing consequential goes out by itself.</h2><p>The installed policy is <b>draft and recommend first</b>. Sending, booking, changing, purchasing, delegating or publishing remains blocked until Mario explicitly approves the action.</p></div>
+  </article>
+</section>
+
+<section class="section">
+  <div class="section-label"><span class="num">05</span> Reliability underneath</div>
+  <div class="ops">
+    <article class="op"><div class="icon">01</div><h4>Boot recovery</h4><p>Systemd starts the gateway at boot and restarts it after failure.</p></article>
+    <article class="op"><div class="icon">02</div><h4>Forced-failure tested</h4><p>The gateway was deliberately stopped and recovered under a new process.</p></article>
+    <article class="op"><div class="icon">03</div><h4>Forge monitoring</h4><p>Central checks watch gateway state, restarts, disk, memory and Telegram identity.</p></article>
+    <article class="op"><div class="icon">04</div><h4>Rollback retained</h4><p>AWS snapshot, profile backups and Git history preserve recovery paths.</p></article>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-label"><span class="num">06</span> Honest status</div>
+  <div class="status-row">
+    <article class="status-card on"><h3>Live and verified</h3><ul><li>Dedicated private AWS runtime</li><li>Mario Chief of Staff profile and workflows</li><li>Telegram text + voice-note interface</li><li>Governed Vault + local GBrain memory</li><li>AgentPhone interviewer profile built</li><li>Controlled Outlook, Calendar and Drive lanes</li><li>Self-heal, monitoring and rollback</li></ul></article>
+    <article class="status-card off"><h3>Deliberately not active</h3><ul><li>No autonomous sends or calendar changes</li><li>No broad mailbox or file indexing</li><li>No recurring morning/evening automation</li><li>No regulated production-data approval</li><li>No completed AgentPhone interview</li><li>AgentMail interview inbox not provisioned</li><li>Mario’s real-world adoption remains unverified</li></ul></article>
+  </div>
+  <div class="bottomline"><div class="label">Best next move</div><p>Run one controlled onboarding session, choose one low-risk real workflow, let Mario correct the result, and promote only what he approves.</p></div>
+</section>
+<footer><span>Mario’s private AI Chief of Staff · system illustration</span><span>Built by Meta57 · facts current to 23 Sep 2026</span></footer>
+</main>
+</body>
+</html>
