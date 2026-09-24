@@ -149,7 +149,7 @@ body.lb-lock{overflow:hidden}
 <div class="wrap">
   <div class="meta"><span>Milano Bro</span><span>Run sheet</span><span>Thu 24 Sept 2026 · 12:00–1:00 PM Eastern · Teams</span></div>
   <h1>AI assistant for Milano Bro</h1>
-  <p class="sub">Run sheet for the call with Mario Testa and Romansas. Three goals: what the opportunity is with agents today, what is needed (a secure context layer), and what we have (Mario’s agent set-up, running today on Jason’s own data). Nothing is connected to any Milano Bro mailbox, tenant, or file store. No decision is needed on this call.</p>
+  <p class="sub">Run sheet for the call with Mario Testa and Romansas. Three goals: what the opportunity is with agents today, what is needed (a secure context layer), and what we have (the agent set-up proposed for Mario, already running for Jason on his own data). Nothing is connected to any Milano Bro mailbox, tenant, or file store. No decision is needed on this call.</p>
   <div class="links">
     <a class="chip" href="./agent-org-chart.html"><span class="dot"></span>Live agent org chart</a>
     <a class="chip quiet" href="https://jmg424.github.io/jason-operating-dashboard/ceo.html" target="_blank" rel="noopener">Operating dashboard ↗</a>
@@ -172,7 +172,7 @@ body.lb-lock{overflow:hidden}
       <p>A chatbot answers from what is typed into it. An agent has two things a chatbot does not: <strong>prior context</strong> about the person and the work, and <strong>access to tools</strong> such as mail, calendar and files, used only with approval.</p>
       <p><strong>Context is the important part.</strong> Thin context produces generic answers. A deep, trusted, evolving context of mail, calendar, decisions and operating knowledge is what lets a model behave like someone who lives inside the work. The tools matter less than what the agent already knows.</p>
       <p class="muted">The opportunity is not a better chatbot. It is a controlled context layer that any current model can use, inside whatever stack IT approves.</p>
-      <p class="gnote" style="margin-top:16px">In pictures. Click to open.</p>
+      <p class="gnote" style="margin-top:16px">Click a graphic to open it.</p>
       <div class="gfx two">
         <a class="gcard" href="./graphics/1-what-an-agent-is.html" data-lb="0" aria-label="Open graphic: A chat answers. An agent works.">
           <img src="./graphics/thumb-1-what-an-agent-is.png" alt="A chat answers. An agent works." loading="lazy" width="1280" height="880">
@@ -196,38 +196,38 @@ body.lb-lock{overflow:hidden}
           <span class="cap">A chief of staff that never acts alone.<span>Graphic 3</span></span>
         </a>
       </div>
-      <p><strong>Demo and proposal are different things.</strong> The set-up shown in part 3 runs on Jason’s own data and machines. It is not the proposed deployment. The proposed design, an AI model running inside a Milano Bro cloud account, has not been built, connected, or security-reviewed. It is on this page for discussion, not as something ready to switch on.</p>
+      <p><strong>Where this stands.</strong> The set-up shown in part 3 runs on Jason’s own data and machines. The Milano Bro version, an AI model and context layer inside a Milano Bro cloud account, has not been built, connected, or security-reviewed. It is presented here for discussion.</p>
 
-      <p style="margin-top:18px"><strong>Plain inventory for Romansas.</strong> <span class="muted">What exists today, what is working, and what is still only an idea, so each item can be checked independently. “Working” is used only where re-verified on the demo server.</span></p>
+      <p style="margin-top:18px"><strong>What exists today.</strong> <span class="muted">What is working, what needs setting up, and what is still a proposal, so each item can be checked on its own.</span></p>
       <div class="grid2">
-        <div class="node working"><div class="role">Working · Jason’s own data</div><h3>Jason’s assistant, running today</h3><p>Chat channel, meeting → actions on a pasted transcript, approval gate, memory with receipts.</p></div>
-        <div class="node"><div class="role">Exists · needs configuration</div><h3>Operating hygiene</h3><p>Scheduled brief and closeout, monitoring, backups, log rotation.</p></div>
-        <div class="node"><div class="role">Not built</div><h3>Proposed Milano Bro deployment</h3><p>Model inside a Milano Bro cloud account; tenant-scoped, narrow Microsoft 365 access; context store; retention, deletion and exit procedure. Not built, connected, or security-reviewed.</p></div>
-        <div class="node"><div class="role">Only an idea</div><h3>Broader assistant</h3><p>Calendar, meetings and transcripts; Teams chats and channels; voice, per Mario’s scope.</p></div>
+        <div class="node working"><div class="role">Working · Jason’s own data</div><h3>Jason’s assistant, running today</h3><p>Chat and voice, meeting notes turned into actions, approval gate, memory that shows its sources.</p></div>
+        <div class="node"><div class="role">Built · needs configuration</div><h3>Daily operations</h3><p>Scheduled morning brief and closeout, monitoring, backups.</p></div>
+        <div class="node"><div class="role">Not built yet</div><h3>Milano Bro version</h3><p>Model and context layer inside a Milano Bro cloud account; narrow Microsoft 365 access inside the company tenant; retention, deletion and exit procedure. To be built after IT review.</p></div>
+        <div class="node"><div class="role">Later phases</div><h3>Mario’s full assistant</h3><p>Calendar, meetings and transcripts; Teams chats and channels; voice, as Mario has described.</p></div>
       </div>
-      <p style="margin-top:14px"><strong>Does the proposed cloud deployment already work?</strong> No. It has not been built. The demonstrations use the existing harness on Jason’s development server.</p>
+      <p style="margin-top:14px"><strong>Does the Milano Bro version already work?</strong> Not yet. It has not been built. The demonstrations use Jason’s existing assistant, on Jason’s own data.</p>
 
       <p style="margin-top:18px"><strong>Scope.</strong> No other employees’ mailboxes. No SharePoint, OneDrive or broad document stores for now. Microsoft 365 access limited to what the pilot needs. Email first; calendar and meetings, Teams, and voice would each be a later phase with its own security implications for Romansas to review.</p>
 
-      <p style="margin-top:18px"><strong>Copilot, looked at together.</strong> Copilot is a reasonable default, and it is understandable that IT would prefer it: mail, calendar, Teams and meetings already live there. The narrower question is whether it covers this one personal pilot’s needs.</p>
+      <p style="margin-top:18px"><strong>Copilot, looked at together.</strong> Copilot is a reasonable default: mail, calendar, Teams and meetings already live there. The question to look at together is whether it covers the needs of this one personal pilot.</p>
       <ul>
         <li>Multilingual handling, at the level Mario works in day to day</li>
         <li>The degree of personalization Mario has described</li>
         <li>Where a separate, evolving context layer would add something Copilot does not, if anywhere</li>
       </ul>
-      <p class="muted">To be looked at together, not argued to a conclusion. Which cloud account would host a model, if any, is IT’s call.</p>
+      <p class="muted">Which cloud account would host the model and the context layer is IT’s decision.</p>
     </div>
   </div>
 
   <div class="block" id="s3">
     <h2><span class="n">03</span>What we have: Mario’s agent set-up</h2>
     <div class="notes">
-      <p>The set-up proposed for Mario is already running for Jason, on Jason’s own data and machines. <strong>Hermes</strong> and <strong>Grok Bot</strong> are peer interfaces into one secure context layer, the Obsidian vault plus GBrain. Neither is primary or fallback. <strong>Grok Bot is the voice-facing interface</strong>: Jason uses it because its voice interface is the best available. This is the working set-up you will see in the demonstrations; the Milano Bro deployment of it has not been built yet.</p>
+      <p>The set-up proposed for Mario is already running for Jason, on Jason’s own data and machines. <strong>Hermes</strong> (chat) and <strong>Grok Bot</strong> (voice) are two equal ways in to one secure context layer: a curated, human-readable vault, with a search layer over it. This is the working set-up you will see in the demonstrations. The Milano Bro version of it has not been built yet.</p>
       <a class="live" href="./agent-org-chart.html">
         <div>
           <div class="kicker">Live</div>
-          <h3>Agent org chart: Hermes ∥ Grok Bot → context layer</h3>
-          <p>Vault + GBrain at the base, Hermes and Grok Bot as peers (Grok Bot on voice), then the running desks, including health and homeopathy.</p>
+          <h3>Agent org chart: two ways in, one context layer</h3>
+          <p>The context layer at the base, Hermes (chat) and Grok Bot (voice) above it, then the running desks across business, money and health.</p>
         </div>
         <div class="go">Open the org chart →</div>
       </a>
@@ -235,8 +235,8 @@ body.lb-lock{overflow:hidden}
       <div class="org" aria-label="Summary of Jason's live agent org chart">
         <div class="node context">
           <div class="role">Secure context layer</div>
-          <h3>Obsidian vault + GBrain</h3>
-          <p>Vault is the curated, human-readable truth. GBrain is the searchable archive over it. Agents read here; they do not keep a second brain.</p>
+          <h3>Vault + search</h3>
+          <p>The vault is the curated, human-readable truth. A search layer sits over it. Every agent reads from here; none keeps a separate memory.</p>
         </div>
         <div class="conn"></div>
         <div class="conn-label">Peer interfaces</div>
@@ -245,19 +245,19 @@ body.lb-lock{overflow:hidden}
           <div class="node peer hermes">
             <div class="badge">Peer interface</div>
             <h3>Hermes</h3>
-            <p>Agent runtime and mission-control harness. Equal peer to Grok Bot on the same context layer.</p>
+            <p>The chat interface. Equal peer to Grok Bot on the same context layer.</p>
           </div>
           <div class="node peer grok">
             <div class="badge">Peer interface · voice</div>
             <h3>Grok Bot</h3>
-            <p>Voice-facing interface on the same vault and GBrain. Chosen for the quality of its voice interface.</p>
+            <p>The voice interface, on the same context layer. Chosen for the quality of its voice.</p>
           </div>
         </div>
         <div class="conn"></div>
         <div class="node chief">
           <div class="role">Coordination</div>
           <h3>Chief of staff</h3>
-          <p>Routes work across desks and holds the side-effect pause: drafts only until Jason approves. Hermes for Mario is the proposed analogue of this seat.</p>
+          <p>Routes work across the desks and holds the approval gate: drafts only until Jason approves. The assistant proposed for Mario is this seat.</p>
           <div class="status">live</div>
         </div>
         <div class="conn"></div>
@@ -269,7 +269,7 @@ body.lb-lock{overflow:hidden}
           </div></div>
           <div class="leaf"><div class="stem"></div><div class="node">
             <div class="role">Business</div><h3>Michelle Galoob Consulting</h3>
-            <p>MGC day-to-day: schedule, launches, client ops.</p><div class="status">live</div>
+            <p>Day-to-day: schedule, launches, client operations.</p><div class="status">live</div>
           </div></div>
           <div class="leaf"><div class="stem"></div><div class="node">
             <div class="role">Business</div><h3>Jason / Work Different AI</h3>
@@ -285,16 +285,16 @@ body.lb-lock{overflow:hidden}
           </div></div>
           <div class="leaf"><div class="stem"></div><div class="node">
             <div class="role">Health</div><h3>Homeopathic assistant</h3>
-            <p>Advisor grounded in the Esther Miszer / Esther Homeo message history.</p><div class="status">live</div>
+            <p>Advisor grounded in a practitioner’s message history.</p><div class="status">live</div>
           </div></div>
         </div>
       </div>
 
       <p style="margin-top:22px"><strong>Demonstrations, on Jason’s own data.</strong> The existing assistant and its context layer. Nothing is connected to any Milano Bro mailbox, tenant, or file store during the call.</p>
       <ol>
-        <li><strong>Executive awareness.</strong> “What should I focus on today?” answered from seeded context.</li>
-        <li><strong>Strategic support.</strong> “Help me think through this” with cited recall.</li>
-        <li><strong>Execution with control.</strong> Task draft → send attempt → the approval gate stops the action.</li>
+        <li><strong>Executive awareness.</strong> “What should I focus on today?” answered from what the assistant already knows.</li>
+        <li><strong>Strategic support.</strong> “Help me think through this,” with sources shown.</li>
+        <li><strong>Execution with control.</strong> The assistant drafts the work and tries to send it; the approval gate stops it until Mario says yes.</li>
       </ol>
 
       <div class="callout">
@@ -304,7 +304,7 @@ body.lb-lock{overflow:hidden}
     </div>
   </div>
 
-  <div class="foot">Prepared by Jason Galoob for Milano Bro · September 2026. Demonstrations use Jason’s own data; the proposed Milano Bro deployment has not been built. No company data on this page. Org chart: <a href="./agent-org-chart.html">agent-org-chart.html</a>.</div>
+  <div class="foot">Prepared by Jason Galoob for Milano Bro · September 2026. Demonstrations use Jason’s own data; the proposed Milano Bro deployment has not been built. No company data on this page.</div>
 </div>
 
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Graphic">
