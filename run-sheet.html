@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Milano Bro — AI assistant run sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#f7f4ee; --paper:#fffdf9; --ink:#1f2328; --mute:#646c76; --line:#e4ded3; --line-soft:#ece7dd;
+  --accent:#2f5a8a; --accent-soft:#eaf0f7; --ok:#3a7a5b; --ok-soft:rgba(58,122,91,.14);
+  --plum:#6b4f9a; --plum-soft:#f1ecf8; --sage-soft:#f1f6ee; --sage-line:#c9d9bf;
+  --serif:"Source Serif 4",Georgia,serif; --sans:"Inter",system-ui,-apple-system,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.6;min-height:100vh;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+.wrap{max-width:860px;margin:0 auto;padding:56px 32px 96px}
+
+/* header */
+.meta{font-family:var(--mono);font-size:11px;color:var(--mute);letter-spacing:.05em;text-transform:uppercase;margin-bottom:22px;display:flex;flex-wrap:wrap;gap:6px 14px}
+.meta span+span::before{content:"·";margin-right:14px;color:var(--line)}
+h1{font-family:var(--serif);font-size:38px;font-weight:600;letter-spacing:-.015em;line-height:1.15;margin-bottom:12px}
+.sub{color:var(--mute);font-size:16.5px;max-width:56ch;margin-bottom:22px}
+.links{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:48px}
+.chip{
+  display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-size:13.5px;font-weight:500;color:var(--ink);
+  background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:8px 14px;
+  transition:border-color .15s,box-shadow .15s;
+}
+.chip:hover{border-color:#b9c6d6;box-shadow:0 2px 8px rgba(31,35,40,.06)}
+.chip .dot{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px var(--ok-soft)}
+.chip.quiet{color:var(--mute)}
+
+/* sections */
+.block{margin-bottom:44px}
+.block h2{
+  display:flex;align-items:baseline;gap:12px;
+  font-family:var(--sans);font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--mute);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--line);
+}
+.block h2 .n{font-family:var(--mono);font-weight:500;color:var(--accent)}
+.notes{font-size:15.5px}
+.notes p,.notes li{margin:0 0 10px}
+.notes ul,.notes ol{margin:0 0 12px 1.2rem}
+.notes li::marker{color:var(--mute)}
+.notes .muted{color:var(--mute)}
+.notes strong{font-weight:600}
+.agenda{list-style:none;margin:0;padding:0;counter-reset:a}
+.agenda li{display:flex;gap:14px;padding:8px 0;border-bottom:1px dashed var(--line-soft);margin:0}
+.agenda li:last-child{border-bottom:0}
+.agenda li::before{counter-increment:a;content:counter(a,decimal-leading-zero);font-family:var(--mono);font-size:12px;color:var(--accent);padding-top:3px;min-width:22px}
+.callout{
+  margin-top:16px;padding:16px 18px;background:var(--accent-soft);
+  border-left:3px solid var(--accent);border-radius:0 10px 10px 0;
+}
+.callout strong{display:block;margin-bottom:4px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+
+/* live card */
+.live{
+  display:grid;grid-template-columns:1fr auto;align-items:center;gap:18px;text-decoration:none;color:inherit;
+  background:var(--paper);border:1px solid var(--line);border-radius:14px;
+  padding:20px 22px;margin:12px 0 18px;transition:border-color .15s,box-shadow .15s,transform .15s;
+}
+.live:hover{border-color:#b9c6d6;box-shadow:0 4px 14px rgba(31,35,40,.07);transform:translateY(-1px)}
+.live .kicker{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ok);margin-bottom:8px}
+.live .kicker::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px var(--ok-soft)}
+.live h3{font-family:var(--serif);font-size:20px;font-weight:600;margin-bottom:4px;letter-spacing:-.01em}
+.live p{font-size:13.5px;color:var(--mute);margin:0}
+.live .go{font-size:14px;color:var(--accent);font-weight:500;white-space:nowrap}
+
+/* mini org chart */
+.org{margin-top:22px;display:flex;flex-direction:column;align-items:center}
+.node{
+  background:var(--paper);border:1px solid var(--line);border-radius:12px;
+  padding:13px 15px;box-shadow:0 1px 2px rgba(31,35,40,.04);
+}
+.node .role{font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
+.node h3{font-size:14px;font-weight:600;margin-bottom:3px}
+.node p{font-size:12px;color:var(--mute);line-height:1.45;margin:0}
+.node.context{width:100%;max-width:640px;text-align:center;border-color:var(--sage-line);background:linear-gradient(180deg,var(--paper),var(--sage-soft))}
+.node.context .role{color:var(--ok)}
+.node.chief{width:100%;max-width:340px;text-align:center;border-color:#c6d2e0;background:linear-gradient(180deg,var(--paper),#f1f5fa)}
+.peers{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;max-width:560px}
+.peer{text-align:center;padding:14px 16px}
+.peer .badge{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:999px;margin-bottom:8px}
+.peer.hermes{border-color:#cfc3e3}
+.peer.hermes .badge{background:var(--plum-soft);color:var(--plum)}
+.peer.grok{border-color:#cfcfcf}
+.peer.grok .badge{background:#eeece8;color:#3a3a3a}
+.peer h3{font-size:15px}
+.conn{width:1px;height:20px;background:var(--line)}
+.conn-label{font-family:var(--mono);font-size:10px;color:var(--mute);letter-spacing:.08em;text-transform:uppercase;margin:2px 0}
+.bar{height:1px;background:var(--line);width:calc(100% - 24px);max-width:760px}
+.leaves{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;max-width:790px}
+.leaf{display:flex;flex-direction:column;align-items:center}
+.stem{width:1px;height:20px;background:var(--line)}
+.leaf .node{width:100%}
+.status{display:inline-flex;align-items:center;gap:6px;font-size:10px;color:var(--ok);margin-top:8px;font-family:var(--mono);letter-spacing:.04em}
+.status::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px var(--ok-soft)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.grid2 .node .role{color:var(--mute)}
+.grid2 .node.working .role{color:var(--ok)}
+.foot{margin-top:56px;padding-top:16px;border-top:1px solid var(--line);font-size:12.5px;color:var(--mute);line-height:1.6}
+
+/* graphic thumbnails + lightbox */
+.gfx{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:18px 0 6px}
+.gfx.one{grid-template-columns:minmax(0,420px)}
+.gfx.two{grid-template-columns:repeat(2,minmax(0,420px))}
+.gcard{position:relative;display:block;text-decoration:none;color:inherit;border-radius:14px;overflow:hidden;background:#fff;border:1px solid var(--line);box-shadow:0 1px 2px rgba(31,35,40,.05);transition:transform .35s cubic-bezier(.22,.61,.36,1),box-shadow .35s cubic-bezier(.22,.61,.36,1)}
+.gcard img{display:block;width:100%;height:auto;aspect-ratio:16/11;object-fit:cover;object-position:top;transition:transform .6s cubic-bezier(.22,.61,.36,1)}
+.gcard .cap{position:absolute;inset:auto 0 0 0;padding:26px 14px 12px;background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.96) 55%);color:var(--ink);font-size:13px;font-weight:500;letter-spacing:-.005em;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.gcard .cap span{color:var(--mute);font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase}
+.gcard:hover,.gcard:focus-visible{transform:translateY(-4px) scale(1.025);box-shadow:0 18px 40px rgba(31,35,40,.18);z-index:1;outline:none}
+.gcard:hover img{transform:scale(1.04)}
+.gnote{font-size:12.5px;color:var(--mute);margin:0 0 6px}
+.lb{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(20,22,24,.55);-webkit-backdrop-filter:blur(18px) saturate(1.2);backdrop-filter:blur(18px) saturate(1.2);opacity:0;transition:opacity .35s ease}
+.lb.open{display:flex}
+.lb.show{opacity:1}
+.lb .frame{position:relative;width:min(1120px,100%);height:min(92vh,100%);background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,.45);transform:scale(.92) translateY(12px);transition:transform .45s cubic-bezier(.22,.61,.36,1)}
+.lb.show .frame{transform:none}
+.lb iframe{width:100%;height:100%;border:0;display:block;background:#fff}
+.lb .x{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;border:0;background:rgba(0,0,0,.08);color:#1d1d1f;font-size:20px;line-height:1;cursor:pointer;display:grid;place-items:center;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.lb .x:hover{background:rgba(0,0,0,.16)}
+.lb .nv{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;border:0;background:rgba(0,0,0,.08);color:#1d1d1f;font-size:20px;cursor:pointer;display:grid;place-items:center}
+.lb .nv:hover{background:rgba(0,0,0,.16)}
+.lb .nv.prev{left:12px}.lb .nv.next{right:12px}
+.lb .open-new{position:absolute;bottom:12px;right:14px;font-size:12px;color:#1d1d1f;text-decoration:none;background:rgba(0,0,0,.08);padding:6px 10px;border-radius:999px}
+body.lb-lock{overflow:hidden}
+@media (max-width:720px){.gfx,.gfx.two{grid-template-columns:1fr}.gfx.one{grid-template-columns:1fr}.lb{padding:10px}.lb .frame{border-radius:12px}.lb .nv{display:none}}
+@media (prefers-reduced-motion:reduce){.gcard,.gcard img,.lb,.lb .frame{transition:none}}
+@media(max-width:720px){
+  h1{font-size:31px}
+  .wrap{padding:40px 22px 72px}
+  .live{grid-template-columns:1fr}
+  .leaves,.grid2{grid-template-columns:1fr 1fr}
+  .bar{width:calc(50% + 4px)}
+}
+@media(max-width:520px){
+  .leaves,.grid2,.peers{grid-template-columns:1fr}
+  .bar{display:none}.stem{height:10px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="meta"><span>Milano Bro</span><span>Run sheet</span><span>Thu 24 Sept 2026 · 12:00–1:00 PM Eastern · Teams</span></div>
+  <h1>AI assistant for Milano Bro</h1>
+  <p class="sub">Run sheet for the call with Mario Testa and Romansas. Three goals: what the opportunity is with agents today, what is needed (a secure context layer), and what we have (Mario’s agent set-up, running today on Jason’s own data). Nothing is connected to any Milano Bro mailbox, tenant, or file store. No decision is needed on this call.</p>
+  <div class="links">
+    <a class="chip" href="./agent-org-chart.html"><span class="dot"></span>Live agent org chart</a>
+    <a class="chip quiet" href="https://jmg424.github.io/jason-operating-dashboard/" target="_blank" rel="noopener">Operating dashboard ↗</a>
+  </div>
+
+  <div class="block" id="agenda">
+    <h2>Three goals</h2>
+    <div class="notes">
+      <ol class="agenda">
+        <li><strong>The opportunity with agents today.</strong> The difference between a chatbot and an agent: an agent has prior context and access to tools. Context is the important part.</li>
+        <li><strong>What is needed: a secure context layer.</strong> Presented as a proposal, with the plain inventory of what exists and Copilot looked at together.</li>
+        <li><strong>What we have: Mario’s agent set-up.</strong> The live org chart and three demonstrations, running on Jason’s own data.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="block" id="s1">
+    <h2><span class="n">01</span>The opportunity with agents today</h2>
+    <div class="notes">
+      <p>A chatbot answers from what is typed into it. An agent has two things a chatbot does not: <strong>prior context</strong> about the person and the work, and <strong>access to tools</strong> such as mail, calendar and files, used only with approval.</p>
+      <p><strong>Context is the important part.</strong> Thin context produces generic answers. A deep, trusted, evolving context of mail, calendar, decisions and operating knowledge is what lets a model behave like someone who lives inside the work. The tools matter less than what the agent already knows.</p>
+      <p class="muted">The opportunity is not a better chatbot. It is a controlled context layer that any current model can use, inside whatever stack IT approves.</p>
+      <p class="gnote" style="margin-top:16px">In pictures. Click to open.</p>
+      <div class="gfx two">
+        <a class="gcard" href="./graphics/1-what-an-agent-is.html" data-lb="0" aria-label="Open graphic: A chat answers. An agent works.">
+          <img src="./graphics/thumb-1-what-an-agent-is.png" alt="A chat answers. An agent works." loading="lazy" width="1280" height="880">
+          <span class="cap">A chat answers. An agent works.<span>Graphic 1</span></span>
+        </a>
+        <a class="gcard" href="./graphics/2-what-makes-it-useful.html" data-lb="1" aria-label="Open graphic: Same brain. Context is the difference.">
+          <img src="./graphics/thumb-2-what-makes-it-useful.png" alt="Same brain. Context is the difference." loading="lazy" width="1280" height="880">
+          <span class="cap">Same brain. Context is the difference.<span>Graphic 2</span></span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="block" id="s2">
+    <h2><span class="n">02</span>What is needed: a secure context layer</h2>
+    <div class="notes">
+      <p>The proposal: a context layer for Mario that is curated, human-readable and searchable, held inside a Milano Bro cloud account with tenant-scoped, narrow Microsoft 365 access, plus a retention, deletion and exit procedure. An assistant on top of it briefs priorities, supports decisions with context, drafts work, and acts only with clear approval.</p>
+      <div class="gfx one">
+        <a class="gcard" href="./graphics/3-hermes-for-mario.html" data-lb="2" aria-label="Open graphic: A chief of staff that never acts alone.">
+          <img src="./graphics/thumb-3-hermes-for-mario.png" alt="A chief of staff that never acts alone." loading="lazy" width="1280" height="880">
+          <span class="cap">A chief of staff that never acts alone.<span>Graphic 3</span></span>
+        </a>
+      </div>
+      <p><strong>Demo and proposal are different things.</strong> The set-up shown in part 3 runs on Jason’s own data and machines. It is not the proposed deployment. The proposed design, an AI model running inside a Milano Bro cloud account, has not been built, connected, or security-reviewed. It is on this page for discussion, not as something ready to switch on.</p>
+
+      <p style="margin-top:18px"><strong>Plain inventory for Romansas.</strong> <span class="muted">What exists today, what is working, and what is still only an idea, so each item can be checked independently. “Working” is used only where re-verified on the demo server.</span></p>
+      <div class="grid2">
+        <div class="node working"><div class="role">Working · Jason’s own data</div><h3>Jason’s assistant, running today</h3><p>Chat channel, meeting → actions on a pasted transcript, approval gate, memory with receipts.</p></div>
+        <div class="node"><div class="role">Exists · needs configuration</div><h3>Operating hygiene</h3><p>Scheduled brief and closeout, monitoring, backups, log rotation.</p></div>
+        <div class="node"><div class="role">Not built</div><h3>Proposed Milano Bro deployment</h3><p>Model inside a Milano Bro cloud account; tenant-scoped, narrow Microsoft 365 access; context store; retention, deletion and exit procedure. Not built, connected, or security-reviewed.</p></div>
+        <div class="node"><div class="role">Only an idea</div><h3>Broader assistant</h3><p>Calendar, meetings and transcripts; Teams chats and channels; voice, per Mario’s scope.</p></div>
+      </div>
+      <p style="margin-top:14px"><strong>Does the proposed cloud deployment already work?</strong> No. It has not been built. The demonstrations use the existing harness on Jason’s development server.</p>
+
+      <p style="margin-top:18px"><strong>Scope.</strong> No other employees’ mailboxes. No SharePoint, OneDrive or broad document stores for now. Microsoft 365 access limited to what the pilot needs. Email first; calendar and meetings, Teams, and voice would each be a later phase with its own security implications for Romansas to review.</p>
+
+      <p style="margin-top:18px"><strong>Copilot, looked at together.</strong> Copilot is a reasonable default, and it is understandable that IT would prefer it: mail, calendar, Teams and meetings already live there. The narrower question is whether it covers this one personal pilot’s needs.</p>
+      <ul>
+        <li>Multilingual handling, at the level Mario works in day to day</li>
+        <li>The degree of personalization Mario has described</li>
+        <li>Where a separate, evolving context layer would add something Copilot does not, if anywhere</li>
+      </ul>
+      <p class="muted">To be looked at together, not argued to a conclusion. Which cloud account would host a model, if any, is IT’s call.</p>
+    </div>
+  </div>
+
+  <div class="block" id="s3">
+    <h2><span class="n">03</span>What we have: Mario’s agent set-up</h2>
+    <div class="notes">
+      <p>The set-up proposed for Mario is already running for Jason, on Jason’s own data and machines. <strong>Hermes</strong> and <strong>Grok Bot</strong> are peer interfaces into one secure context layer, the Obsidian vault plus GBrain. Neither is primary or fallback. <strong>Grok Bot is the voice-facing interface</strong>: Jason uses it because its voice interface is the best available. This is the working set-up you will see in the demonstrations; the Milano Bro deployment of it has not been built yet.</p>
+      <a class="live" href="./agent-org-chart.html">
+        <div>
+          <div class="kicker">Live</div>
+          <h3>Agent org chart: Hermes ∥ Grok Bot → context layer</h3>
+          <p>Vault + GBrain at the base, Hermes and Grok Bot as peers (Grok Bot on voice), then the running desks, including health and homeopathy.</p>
+        </div>
+        <div class="go">Open the org chart →</div>
+      </a>
+
+      <div class="org" aria-label="Summary of Jason's live agent org chart">
+        <div class="node context">
+          <div class="role">Secure context layer</div>
+          <h3>Obsidian vault + GBrain</h3>
+          <p>Vault is the curated, human-readable truth. GBrain is the searchable archive over it. Agents read here; they do not keep a second brain.</p>
+        </div>
+        <div class="conn"></div>
+        <div class="conn-label">Peer interfaces</div>
+        <div class="conn"></div>
+        <div class="peers">
+          <div class="node peer hermes">
+            <div class="badge">Peer interface</div>
+            <h3>Hermes</h3>
+            <p>Agent runtime and mission-control harness. Equal peer to Grok Bot on the same context layer.</p>
+          </div>
+          <div class="node peer grok">
+            <div class="badge">Peer interface · voice</div>
+            <h3>Grok Bot</h3>
+            <p>Voice-facing interface on the same vault and GBrain. Chosen for the quality of its voice interface.</p>
+          </div>
+        </div>
+        <div class="conn"></div>
+        <div class="node chief">
+          <div class="role">Coordination</div>
+          <h3>Chief of staff</h3>
+          <p>Routes work across desks and holds the side-effect pause: drafts only until Jason approves. Hermes for Mario is the proposed analogue of this seat.</p>
+          <div class="status">live</div>
+        </div>
+        <div class="conn"></div>
+        <div class="bar"></div>
+        <div class="leaves">
+          <div class="leaf"><div class="stem"></div><div class="node">
+            <div class="role">Business</div><h3>Mimi’s Market</h3>
+            <p>Granola business: markets, kitchen, inventory, logistics.</p><div class="status">live</div>
+          </div></div>
+          <div class="leaf"><div class="stem"></div><div class="node">
+            <div class="role">Business</div><h3>Michelle Galoob Consulting</h3>
+            <p>MGC day-to-day: schedule, launches, client ops.</p><div class="status">live</div>
+          </div></div>
+          <div class="leaf"><div class="stem"></div><div class="node">
+            <div class="role">Business</div><h3>Jason / Work Different AI</h3>
+            <p>Consulting and brand: AI projects and clients.</p><div class="status">live</div>
+          </div></div>
+          <div class="leaf"><div class="stem"></div><div class="node">
+            <div class="role">Money</div><h3>Ledger</h3>
+            <p>Personal and business accounting: cash, cards, the full picture.</p><div class="status">live</div>
+          </div></div>
+          <div class="leaf"><div class="stem"></div><div class="node">
+            <div class="role">Health</div><h3>Health coach</h3>
+            <p>Jason’s labs, daily framework and health routines.</p><div class="status">live</div>
+          </div></div>
+          <div class="leaf"><div class="stem"></div><div class="node">
+            <div class="role">Health</div><h3>Homeopathic assistant</h3>
+            <p>Advisor grounded in the Esther Miszer / Esther Homeo message history.</p><div class="status">live</div>
+          </div></div>
+        </div>
+      </div>
+
+      <p style="margin-top:22px"><strong>Demonstrations, on Jason’s own data.</strong> The existing assistant and its context layer. Nothing is connected to any Milano Bro mailbox, tenant, or file store during the call.</p>
+      <ol>
+        <li><strong>Executive awareness.</strong> “What should I focus on today?” answered from seeded context.</li>
+        <li><strong>Strategic support.</strong> “Help me think through this” with cited recall.</li>
+        <li><strong>Execution with control.</strong> Task draft → send attempt → the approval gate stops the action.</li>
+      </ol>
+
+      <div class="callout">
+        <strong>What we leave with</strong>
+        No decision is needed on this call. The useful result is a clear list from Romansas of the evidence and controls IT would need to see before approving anything, worked through in the order Romansas sets. From Mario: whether the demonstrations match the assistant Mario has in mind. Then a follow-up date.
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">Prepared by Jason Galoob for Milano Bro · September 2026. Demonstrations use Jason’s own data; the proposed Milano Bro deployment has not been built. No company data on this page. Org chart: <a href="./agent-org-chart.html">agent-org-chart.html</a>.</div>
+</div>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Graphic">
+  <div class="frame">
+    <iframe id="lbf" title="Graphic" src="about:blank" loading="eager"></iframe>
+    <button class="x" id="lbx" aria-label="Close">×</button>
+    <button class="nv prev" id="lbp" aria-label="Previous graphic">‹</button>
+    <button class="nv next" id="lbn" aria-label="Next graphic">›</button>
+    <a class="open-new" id="lbo" href="#" target="_blank" rel="noopener">Open full page ↗</a>
+  </div>
+</div>
+<script>
+(function(){
+  var cards=[].slice.call(document.querySelectorAll('.gcard'));
+  var urls=cards.map(function(c){return c.getAttribute('href')});
+  var lb=document.getElementById('lb'),f=document.getElementById('lbf'),o=document.getElementById('lbo'),cur=0;
+  function open(i){cur=i;f.src=urls[i];o.href=urls[i];lb.classList.add('open');document.body.classList.add('lb-lock');requestAnimationFrame(function(){requestAnimationFrame(function(){lb.classList.add('show')})});document.getElementById('lbx').focus()}
+  function close(){lb.classList.remove('show');document.body.classList.remove('lb-lock');setTimeout(function(){lb.classList.remove('open');f.src='about:blank'},350)}
+  function step(d){open((cur+d+urls.length)%urls.length)}
+  cards.forEach(function(c,i){c.addEventListener('click',function(e){if(e.metaKey||e.ctrlKey||e.shiftKey)return;e.preventDefault();open(i)})});
+  document.getElementById('lbx').addEventListener('click',close);
+  document.getElementById('lbp').addEventListener('click',function(){step(-1)});
+  document.getElementById('lbn').addEventListener('click',function(){step(1)});
+  lb.addEventListener('click',function(e){if(e.target===lb)close()});
+  document.addEventListener('keydown',function(e){if(!lb.classList.contains('open'))return;if(e.key==='Escape')close();if(e.key==='ArrowRight')step(1);if(e.key==='ArrowLeft')step(-1)});
+})();
+</script>
+</body>
+</html>
